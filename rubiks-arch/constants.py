@@ -1,3 +1,4 @@
+from enum import Enum, auto
 
 
 class Colours:
@@ -7,3 +8,12 @@ class Colours:
     WHITE = 'White'
     GREEN = 'Green'
     YELLOW = 'Yellow'
+
+    
+class Orientation(Enum):
+    FRONT = auto()
+    BACK = auto()
+    LEFT = auto()
+    RIGHT = auto()
+    TOP = auto()
+    BOTTOM = auto()
