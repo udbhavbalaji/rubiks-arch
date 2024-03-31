@@ -138,7 +138,23 @@ class RubiksCube:
         new_right_face = ru.right_face(self.current_front)
         new_top_face = ru.top_face(self.current_front)
         new_bottom_face = ru.bottom_face(self.current_front)
+        
+        # Getting transformed grids
+        new_front_grid = ru.front_grid(self.current_front)
+        new_opposite_grid = ru.opposite_grid(self.current_front)
+        new_left_grid = ru.left_grid(self.current_front)
+        new_right_grid = ru.right_grid(self.current_front)
+        new_top_grid = ru.top_grid(self.current_front)
+        new_bottom_grid = ru.bottom_grid(self.current_front)
 
+        # Setting updated grids
+        new_front_face.grid = new_front_grid
+        new_opposite_face.grid = new_opposite_grid
+        new_left_face.grid = new_left_grid
+        new_right_face.grid = new_right_grid
+        new_top_face.grid = new_top_grid
+        new_bottom_face.grid = new_bottom_grid
+        
         # Resetting current front based on the rotation
         self.current_front = self.current_front.bottom
 
@@ -158,17 +174,27 @@ class RubiksCube:
     def rotate_left_vertically(self):
         # Getting transformed faces
         new_front_face = rlv.front_face(self.current_front)
-        # print(f'{self.current_front.colour} - {new_front_face.colour}')
         new_opposite_face = rlv.opposite_face(self.current_front)
-        # print(f'{self.current_front.colour} - {new_opposite_face.colour}')
         new_left_face = rlv.left_face(self.current_front)
-        # print(f'{self.current_front.colour} - {new_left_face.colour}')
         new_right_face = rlv.right_face(self.current_front)
-        # print(f'{self.current_front.colour} - {new_right_face.colour}')
         new_top_face = rlv.top_face(self.current_front)
-        # print(f'{self.current_front.colour} - {new_top_face.colour}')
         new_bottom_face = rlv.bottom_face(self.current_front)
-        # print(f'{self.current_front.colour} - {new_bottom_face.colour}')
+
+        # Getting transformed grids
+        new_front_grid = rlv.front_grid(self.current_front)
+        new_opposite_grid = rlv.opposite_grid(self.current_front)
+        new_left_grid = rlv.left_grid(self.current_front)
+        new_right_grid = rlv.right_grid(self.current_front)
+        new_top_grid = rlv.top_grid(self.current_front)
+        new_bottom_grid = rlv.bottom_grid(self.current_front)
+
+        # Setting updated grids
+        new_front_face.grid = new_front_grid
+        new_opposite_face.grid = new_opposite_grid
+        new_left_face.grid = new_left_grid
+        new_right_face.grid = new_right_grid
+        new_top_face.grid = new_top_grid
+        new_bottom_face.grid = new_bottom_grid
         
         # Resetting current front based on the rotation
         self.current_front = self.current_front.right
@@ -351,6 +377,27 @@ class Face:
             
         print(f'Opposite: Face({self.opposite._id})')
         print(f'Side of Cube: {self.side_of_cube}')
+
+    def update_grid_attrs(self):
+        self.grid[FacePositions.TOP_LEFT].face_position = FacePositions.TOP_LEFT
+        self.grid[FacePositions.TOP_CENTER].face_position = FacePositions.TOP_CENTER
+        self.grid[FacePositions.TOP_RIGHT].face_position = FacePositions.TOP_RIGHT
+        self.grid[FacePositions.MID_LEFT].face_position = FacePositions.MID_LEFT
+        self.grid[FacePositions.CENTER].face_position = FacePositions.CENTER
+        self.grid[FacePositions.MID_RIGHT].face_position = FacePositions.MID_RIGHT
+        self.grid[FacePositions.BOTTOM_LEFT].face_position = FacePositions.BOTTOM_LEFT
+        self.grid[FacePositions.BOTTOM_CENTER].face_position = FacePositions.BOTTOM_CENTER
+        self.grid[FacePositions.BOTTOM_RIGHT].face_position = FacePositions.BOTTOM_RIGHT
+
+        self.grid[FacePositions.TOP_LEFT].face = self
+        self.grid[FacePositions.TOP_CENTER].face = self
+        self.grid[FacePositions.TOP_RIGHT].face = self
+        self.grid[FacePositions.MID_LEFT].face = self
+        self.grid[FacePositions.CENTER].face = self
+        self.grid[FacePositions.MID_RIGHT].face = self
+        self.grid[FacePositions.BOTTOM_LEFT].face = self
+        self.grid[FacePositions.BOTTOM_CENTER].face = self
+        self.grid[FacePositions.BOTTOM_RIGHT].face = self
     
 
 class Piece:

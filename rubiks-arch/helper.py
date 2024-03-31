@@ -9,5 +9,6 @@ def transfer_faces(orig, new):
         orig.front = new.front
         orig.back = new.back
         orig.side_of_cube = new.side_of_cube
+        orig.grid = new.grid
     except AttributeError:
         raise FaceTransferError()
