@@ -44,6 +44,8 @@ class RotateUp:
         face.left = old_face.top
         face.right = old_face.bottom
 
+        face.side_of_cube = Orientation.LEFT
+
         return face
     
     def right_face(current_front):
@@ -55,6 +57,8 @@ class RotateUp:
 
         face.left = old_face.bottom
         face.right = old_face.top
+
+        face.side_of_cube = Orientation.RIGHT
 
         return face
     
@@ -121,6 +125,8 @@ class RotateLeftVertical:
         
         face.front = old_face.right
         face.back = old_face.left
+
+        face.side_of_cube = Orientation.TOP
         
         return face
     
@@ -134,4 +140,7 @@ class RotateLeftVertical:
         face.front = old_face.right
         face.back = old_face.left
         
+        face.side_of_cube = Orientation.BOTTOM
+        
         return face
+        
