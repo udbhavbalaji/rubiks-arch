@@ -1,6 +1,6 @@
 from constants import Colours, Orientation, FacePositions, PieceTypes
 from errors import ImmutableAttributeError
-from face_transformations import RotateUp as ru, RotateLeftVertical as rlv
+from face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
 from predicates import is_default_perspective, is_white_face_top
 import helper as help
 
@@ -125,6 +125,10 @@ class RubiksCube:
         self.white_face.side_of_cube = Orientation.TOP
         self.green_face.side_of_cube = Orientation.BACK
         self.yellow_face.side_of_cube = Orientation.BOTTOM
+
+    def assign_complements(self):
+        for face in self.faces:
+            face.init_face_complements()
 
     def print_face_ids(self):
         for pos, face in zip(FACE_ORDER, self.faces):
@@ -251,6 +255,94 @@ class RubiksCube:
                     self.rotate_left_vertically()
                 else:
                     self.rotate_left_horizontally()
+
+    def shift_right_col_up(self):
+        # Getting updated grids for each face
+        new_front_grid = rcu.front_grid(self.current_front)
+        new_opposite_grid = rcu.opposite_grid(self.current_front)
+        new_left_grid = rcu.left_grid(self.current_front)
+        new_right_grid = rcu.right_grid(self.current_front)
+        new_top_grid = rcu.top_grid(self.current_front)
+        new_bottom_grid = rcu.bottom_grid(self.current_front)
+        
+        # Setting updated grids
+        self.current_front.grid = new_front_grid
+        self.current_front.opposite.grid = new_opposite_grid
+        self.current_front.left.grid = new_left_grid
+        self.current_front.right.grid = new_right_grid
+        self.current_front.top.grid = new_top_grid
+        self.current_front.bottom.grid = new_bottom_grid
+
+    def shift_right_col_down(self):
+        self.shift_right_col_up()
+        self.shift_right_col_up()
+        self.shift_right_col_up()
+
+    def shift_left_col_up(self):
+        # Getting updated grids for each face
+        new_front_grid = lcu.front_grid(self.current_front)
+        new_opposite_grid = lcu.opposite_grid(self.current_front)
+        new_left_grid = lcu.left_grid(self.current_front)
+        new_right_grid = lcu.right_grid(self.current_front)
+        new_top_grid = lcu.top_grid(self.current_front)
+        new_bottom_grid = lcu.bottom_grid(self.current_front)
+        
+        # Setting updated grids
+        self.current_front.grid = new_front_grid
+        self.current_front.opposite.grid = new_opposite_grid
+        self.current_front.left.grid = new_left_grid
+        self.current_front.right.grid = new_right_grid
+        self.current_front.top.grid = new_top_grid
+        self.current_front.bottom.grid = new_bottom_grid
+
+    def shift_left_col_down(self):
+        self.shift_left_col_up()
+        self.shift_left_col_up()
+        self.shift_left_col_up()
+
+    def shift_top_row_left(self):
+        # Getting updated grids for each face
+        new_front_grid = trl.front_grid(self.current_front)
+        new_opposite_grid = trl.opposite_grid(self.current_front)
+        new_left_grid = trl.left_grid(self.current_front)
+        new_right_grid = trl.right_grid(self.current_front)
+        new_top_grid = trl.top_grid(self.current_front)
+        new_bottom_grid = trl.bottom_grid(self.current_front)
+        
+        # Setting updated grids
+        self.current_front.grid = new_front_grid
+        self.current_front.opposite.grid = new_opposite_grid
+        self.current_front.left.grid = new_left_grid
+        self.current_front.right.grid = new_right_grid
+        self.current_front.top.grid = new_top_grid
+        self.current_front.bottom.grid = new_bottom_grid
+
+    def shift_top_row_right(self):
+        self.shift_top_row_left()
+        self.shift_top_row_left()
+        self.shift_top_row_left()
+
+    def shift_bottom_row_left(self):
+        # Getting updated grids for each face
+        new_front_grid = brl.front_grid(self.current_front)
+        new_opposite_grid = brl.opposite_grid(self.current_front)
+        new_left_grid = brl.left_grid(self.current_front)
+        new_right_grid = brl.right_grid(self.current_front)
+        new_top_grid = brl.top_grid(self.current_front)
+        new_bottom_grid = brl.bottom_grid(self.current_front)
+        
+        # Setting updated grids
+        self.current_front.grid = new_front_grid
+        self.current_front.opposite.grid = new_opposite_grid
+        self.current_front.left.grid = new_left_grid
+        self.current_front.right.grid = new_right_grid
+        self.current_front.top.grid = new_top_grid
+        self.current_front.bottom.grid = new_bottom_grid
+
+    def shift_bottom_row_right(self):
+        self.shift_bottom_row_left()
+        self.shift_bottom_row_left()
+        self.shift_bottom_row_left()
 
 
 class Face:
@@ -398,6 +490,68 @@ class Face:
         self.grid[FacePositions.BOTTOM_LEFT].face = self
         self.grid[FacePositions.BOTTOM_CENTER].face = self
         self.grid[FacePositions.BOTTOM_RIGHT].face = self
+    
+    def init_face_complements(self):
+        if self.side_of_cube == Orientation.FRONT:
+            self.grid[FacePositions.TOP_CENTER].complement = self.top.grid[FacePositions.BOTTOM_CENTER]
+            self.grid[FacePositions.MID_LEFT].complement = self.left.grid[FacePositions.MID_RIGHT]
+            self.grid[FacePositions.MID_RIGHT].complement = self.right.grid[FacePositions.MID_LEFT]
+            self.grid[FacePositions.BOTTOM_CENTER].complement = self.bottom.grid[FacePositions.TOP_CENTER]
+            
+            self.grid[FacePositions.TOP_LEFT].complements = {self.top.grid[FacePositions.BOTTOM_LEFT], self.left.grid[FacePositions.TOP_RIGHT]}
+            self.grid[FacePositions.TOP_RIGHT].complements = {self.top.grid[FacePositions.BOTTOM_RIGHT], self.right.grid[FacePositions.TOP_LEFT]}
+            self.grid[FacePositions.BOTTOM_LEFT].complements = {self.bottom.grid[FacePositions.TOP_LEFT], self.left.grid[FacePositions.BOTTOM_RIGHT]}
+            self.grid[FacePositions.BOTTOM_RIGHT].complements = {self.bottom.grid[FacePositions.TOP_RIGHT], self.right.grid[FacePositions.BOTTOM_LEFT]}
+        elif self.side_of_cube == Orientation.BACK:
+            self.grid[FacePositions.TOP_CENTER].complement = self.top.grid[FacePositions.TOP_CENTER]
+            self.grid[FacePositions.MID_LEFT].complement = self.left.grid[FacePositions.MID_RIGHT]
+            self.grid[FacePositions.MID_RIGHT].complement = self.right.grid[FacePositions.MID_LEFT]
+            self.grid[FacePositions.BOTTOM_CENTER].complement = self.bottom.grid[FacePositions.BOTTOM_CENTER]
+            
+            self.grid[FacePositions.TOP_LEFT].complements = {self.top.grid[FacePositions.TOP_RIGHT], self.right.grid[FacePositions.TOP_RIGHT]}
+            self.grid[FacePositions.TOP_RIGHT].complements = {self.top.grid[FacePositions.TOP_LEFT], self.left.grid[FacePositions.TOP_LEFT]}
+            self.grid[FacePositions.BOTTOM_LEFT].complements = {self.bottom.grid[FacePositions.BOTTOM_RIGHT], self.right.grid[FacePositions.BOTTOM_RIGHT]}
+            self.grid[FacePositions.BOTTOM_RIGHT].complements = {self.bottom.grid[FacePositions.BOTTOM_LEFT], self.left.grid[FacePositions.BOTTOM_LEFT]}
+        elif self.side_of_cube == Orientation.LEFT:
+            self.grid[FacePositions.TOP_CENTER].complement = self.top.grid[FacePositions.MID_LEFT]
+            self.grid[FacePositions.MID_LEFT].complement = self.left.grid[FacePositions.MID_RIGHT]
+            self.grid[FacePositions.MID_RIGHT].complement = self.right.grid[FacePositions.MID_LEFT]
+            self.grid[FacePositions.BOTTOM_CENTER].complement = self.bottom.grid[FacePositions.MID_LEFT]
+            
+            self.grid[FacePositions.TOP_LEFT].complements = {self.top.grid[FacePositions.TOP_LEFT], self.left.grid[FacePositions.TOP_RIGHT]}
+            self.grid[FacePositions.TOP_RIGHT].complements = {self.top.grid[FacePositions.BOTTOM_LEFT], self.right.grid[FacePositions.TOP_LEFT]}
+            self.grid[FacePositions.BOTTOM_LEFT].complements = {self.bottom.grid[FacePositions.BOTTOM_LEFT], self.left.grid[FacePositions.BOTTOM_RIGHT]}
+            self.grid[FacePositions.BOTTOM_RIGHT].complements = {self.bottom.grid[FacePositions.TOP_LEFT], self.right.grid[FacePositions.BOTTOM_LEFT]}
+        elif self.side_of_cube == Orientation.RIGHT:
+            self.grid[FacePositions.TOP_CENTER].complement = self.top.grid[FacePositions.MID_RIGHT]
+            self.grid[FacePositions.MID_LEFT].complement = self.left.grid[FacePositions.MID_RIGHT]
+            self.grid[FacePositions.MID_RIGHT].complement = self.right.grid[FacePositions.MID_LEFT]
+            self.grid[FacePositions.BOTTOM_CENTER].complement = self.bottom.grid[FacePositions.MID_RIGHT]
+            
+            self.grid[FacePositions.TOP_LEFT].complements = {self.top.grid[FacePositions.BOTTOM_RIGHT], self.left.grid[FacePositions.TOP_RIGHT]}
+            self.grid[FacePositions.TOP_RIGHT].complements = {self.top.grid[FacePositions.TOP_RIGHT], self.right.grid[FacePositions.TOP_LEFT]}
+            self.grid[FacePositions.BOTTOM_LEFT].complements = {self.bottom.grid[FacePositions.TOP_RIGHT], self.left.grid[FacePositions.BOTTOM_RIGHT]}
+            self.grid[FacePositions.BOTTOM_RIGHT].complements = {self.bottom.grid[FacePositions.BOTTOM_RIGHT], self.right.grid[FacePositions.BOTTOM_LEFT]}
+        elif self.side_of_cube == Orientation.TOP:
+            self.grid[FacePositions.TOP_CENTER].complement = self.back.grid[FacePositions.TOP_CENTER]
+            self.grid[FacePositions.MID_LEFT].complement = self.left.grid[FacePositions.TOP_CENTER]
+            self.grid[FacePositions.MID_RIGHT].complement = self.right.grid[FacePositions.TOP_CENTER]
+            self.grid[FacePositions.BOTTOM_CENTER].complement = self.front.grid[FacePositions.TOP_CENTER]
+            
+            self.grid[FacePositions.TOP_LEFT].complements = {self.back.grid[FacePositions.TOP_RIGHT], self.left.grid[FacePositions.TOP_LEFT]}
+            self.grid[FacePositions.TOP_RIGHT].complements = {self.back.grid[FacePositions.TOP_LEFT], self.right.grid[FacePositions.TOP_RIGHT]}
+            self.grid[FacePositions.BOTTOM_LEFT].complements = {self.front.grid[FacePositions.TOP_LEFT], self.left.grid[FacePositions.TOP_RIGHT]}
+            self.grid[FacePositions.BOTTOM_RIGHT].complements = {self.front.grid[FacePositions.TOP_RIGHT], self.right.grid[FacePositions.TOP_LEFT]}
+        elif self.side_of_cube == Orientation.BOTTOM:
+            self.grid[FacePositions.TOP_CENTER].complement = self.front.grid[FacePositions.BOTTOM_CENTER]
+            self.grid[FacePositions.MID_LEFT].complement = self.left.grid[FacePositions.BOTTOM_CENTER]
+            self.grid[FacePositions.MID_RIGHT].complement = self.right.grid[FacePositions.BOTTOM_CENTER]
+            self.grid[FacePositions.BOTTOM_CENTER].complement = self.back.grid[FacePositions.BOTTOM_CENTER]
+            
+            self.grid[FacePositions.TOP_LEFT].complements = {self.front.grid[FacePositions.BOTTOM_LEFT], self.left.grid[FacePositions.BOTTOM_RIGHT]}
+            self.grid[FacePositions.TOP_RIGHT].complements = {self.front.grid[FacePositions.BOTTOM_RIGHT], self.right.grid[FacePositions.BOTTOM_LEFT]}
+            self.grid[FacePositions.BOTTOM_LEFT].complements = {self.back.grid[FacePositions.BOTTOM_RIGHT], self.left.grid[FacePositions.BOTTOM_LEFT]}
+            self.grid[FacePositions.BOTTOM_RIGHT].complements = {self.back.grid[FacePositions.BOTTOM_LEFT], self.right.grid[FacePositions.BOTTOM_RIGHT]}
     
 
 class Piece:

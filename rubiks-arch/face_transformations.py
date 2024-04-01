@@ -99,16 +99,6 @@ class RotateUp:
         back_face = current_front.opposite.copy()
         old_face = back_face.copy()
         
-        # old_top_row = old_face.grid[FacePositions.TOP_ROW].copy()
-        # old_bottom_row = old_face.grid[FacePositions.BOTTOM_ROW].copy()
-        # old_left_col = old_face.grid[:, FacePositions.LEFT_COL].copy()
-        # old_right_col = old_face.grid[:, FacePositions.RIGHT_COL].copy()
-        
-        # back_face.grid[:, FacePositions.LEFT_COL] = np.flip(old_right_col)
-        # back_face.grid[:, FacePositions.RIGHT_COL] = np.flip(old_left_col)
-        # back_face.grid[FacePositions.TOP_ROW] = np.flip(old_bottom_row)
-        # back_face.grid[FacePositions.BOTTOM_ROW] = np.flip(old_top_row)
-
         back_face.grid[FacePositions.TOP_LEFT] = old_face.grid[FacePositions.BOTTOM_RIGHT]
         back_face.grid[FacePositions.TOP_RIGHT] = old_face.grid[FacePositions.BOTTOM_LEFT]
         back_face.grid[FacePositions.BOTTOM_LEFT] = old_face.grid[FacePositions.TOP_RIGHT]
@@ -128,16 +118,6 @@ class RotateUp:
         left_face = current_front.left.copy()
         old_face = left_face.copy()
 
-        # old_top_row = old_face.grid[FacePositions.TOP_ROW].copy()
-        # old_bottom_row = old_face.grid[FacePositions.BOTTOM_ROW].copy()
-        # old_left_col = old_face.grid[:, FacePositions.LEFT_COL].copy()
-        # old_right_col = old_face.grid[:, FacePositions.RIGHT_COL].copy()
-
-        # left_face.grid[:, FacePositions.RIGHT_COL] = np.flip(old_bottom_row)
-        # left_face.grid[:, FacePositions.LEFT_COL] = np.flip(old_top_row)
-        # left_face.grid[FacePositions.TOP_ROW] = old_right_col
-        # left_face.grid[FacePositions.BOTTOM_ROW] = old_left_col
-
         left_face.grid[FacePositions.TOP_LEFT] = old_face.grid[FacePositions.TOP_RIGHT]
         left_face.grid[FacePositions.TOP_RIGHT] = old_face.grid[FacePositions.BOTTOM_RIGHT]
         left_face.grid[FacePositions.BOTTOM_LEFT] = old_face.grid[FacePositions.TOP_LEFT]
@@ -156,16 +136,6 @@ class RotateUp:
         right_face = current_front.right.copy()
         old_face = right_face.copy()
 
-        # old_top_row = old_face.grid[FacePositions.TOP_ROW].copy()
-        # old_bottom_row = old_face.grid[FacePositions.BOTTOM_ROW].copy()
-        # old_left_col = old_face.grid[:, FacePositions.LEFT_COL].copy()
-        # old_right_col = old_face.grid[:, FacePositions.RIGHT_COL].copy()
-
-        # right_face.grid[:, FacePositions.LEFT_COL] = old_bottom_row
-        # right_face.grid[:, FacePositions.RIGHT_COL] = old_top_row
-        # right_face.grid[FacePositions.TOP_ROW] = np.flip(old_left_col)
-        # right_face.grid[FacePositions.BOTTOM_ROW] = np.flip(old_right_col)
-
         right_face.grid[FacePositions.TOP_LEFT] = old_face.grid[FacePositions.BOTTOM_LEFT]
         right_face.grid[FacePositions.TOP_RIGHT] = old_face.grid[FacePositions.TOP_LEFT]
         right_face.grid[FacePositions.BOTTOM_LEFT] = old_face.grid[FacePositions.BOTTOM_RIGHT]
@@ -183,16 +153,6 @@ class RotateUp:
     def top_grid(current_front):
         top_face = current_front.top.copy()
         old_face = top_face.copy()
-
-        # old_top_row = old_face.grid[FacePositions.TOP_ROW].copy()
-        # old_bottom_row = old_face.grid[FacePositions.BOTTOM_ROW].copy()
-        # old_left_col = old_face.grid[:, FacePositions.LEFT_COL].copy()
-        # old_right_col = old_face.grid[:, FacePositions.RIGHT_COL].copy()
-
-        # top_face.grid[:, FacePositions.LEFT_COL] = np.flip(old_right_col)
-        # top_face.grid[:, FacePositions.RIGHT_COL] = np.flip(old_left_col)
-        # top_face.grid[FacePositions.TOP_ROW] = np.flip(old_bottom_row)
-        # top_face.grid[FacePositions.BOTTOM_ROW] = np.flip(old_top_row)
 
         top_face.grid[FacePositions.TOP_LEFT] = old_face.grid[FacePositions.BOTTOM_RIGHT]
         top_face.grid[FacePositions.TOP_RIGHT] = old_face.grid[FacePositions.BOTTOM_LEFT]
@@ -262,30 +222,22 @@ class RotateLeftVertical:
 
     def front_grid(current_front):
         front_face = current_front.copy()
-        
         front_face.update_grid_attrs()
-        
         return front_face.grid
     
     def opposite_grid(current_front):
         opposite_face = current_front.opposite.copy()
-        
         opposite_face.update_grid_attrs()
-        
         return opposite_face.grid
     
     def left_grid(current_front):
         left_face = current_front.left.copy()
-        
         left_face.update_grid_attrs()
-        
         return left_face.grid
     
     def right_grid(current_front):
         right_face = current_front.right.copy()
-        
         right_face.update_grid_attrs()
-        
         return right_face.grid
     
     def top_grid(current_front):
@@ -323,4 +275,234 @@ class RotateLeftVertical:
         bottom_face.update_grid_attrs()
         
         return bottom_face.grid
+        
+
+class RightColUp:
+    
+    def front_grid(current_front):
+        front_face = current_front.copy()
+        old_face = front_face.copy()
+        
+        bottom_face = current_front.bottom.copy()
+        
+        bottom_right_col = bottom_face.grid[:, FacePositions.RIGHT_COL].copy()
+        front_face.grid[:, FacePositions.RIGHT_COL] = bottom_right_col
+        
+        front_face.update_grid_attrs()
+        
+        return front_face.grid
+    
+    def opposite_grid(current_front):
+        opposite_face = current_front.opposite.copy()
+        old_face = opposite_face.copy()
+        
+        top_face = current_front.top.copy()
+        
+        top_right_col = top_face.grid[:, FacePositions.RIGHT_COL].copy()
+        opposite_face.grid[:, FacePositions.LEFT_COL] = np.flip(top_right_col)
+        
+        opposite_face.update_grid_attrs()
+        
+        return opposite_face.grid
+    
+    def left_grid(current_front):
+        return current_front.left.grid
+    
+    def right_grid(current_front):
+        return RotateUp.right_grid(current_front)
+        
+    def top_grid(current_front):
+        top_face = current_front.top.copy()
+        
+        front_face = current_front.copy()
+        
+        front_right_col = front_face.grid[:, FacePositions.RIGHT_COL].copy()
+        top_face.grid[:, FacePositions.RIGHT_COL] = front_right_col
+        
+        top_face.update_grid_attrs()
+        
+        return top_face.grid
+    
+    def bottom_grid(current_front):
+        bottom_face = current_front.bottom.copy()
+        
+        opposite_face = current_front.opposite.copy()
+        
+        opposite_left_col = opposite_face.grid[:, FacePositions.LEFT_COL].copy()
+        bottom_face.grid[:, FacePositions.RIGHT_COL] = np.flip(opposite_left_col)
+        
+        bottom_face.update_grid_attrs()
+        
+        return bottom_face.grid
+    
+    
+class LeftColUp:
+    
+    def front_grid(current_front):
+        front_face = current_front.copy()
+        
+        bottom_face = current_front.bottom.copy()
+        
+        bottom_left_col = bottom_face.grid[:, FacePositions.LEFT_COL].copy()
+        front_face.grid[:, FacePositions.LEFT_COL] = bottom_left_col
+        
+        front_face.update_grid_attrs()
+        
+        return front_face.grid
+    
+    def opposite_grid(current_front):
+        opposite_face = current_front.opposite.copy()
+        
+        top_face = current_front.top.copy()
+        
+        top_left_col = top_face.grid[:, FacePositions.LEFT_COL].copy()
+        opposite_face.grid[:, FacePositions.RIGHT_COL] = np.flip(top_left_col)
+        
+        opposite_face.update_grid_attrs()
+        
+        return opposite_face.grid
+    
+    def left_grid(current_front):
+        return RotateUp.left_grid(current_front)
+    
+    def right_grid(current_front):
+        return current_front.right.grid
+    
+    def top_grid(current_front):
+        top_face = current_front.top.copy()
+        
+        front_face = current_front.copy()
+        
+        front_left_col = front_face.grid[:, FacePositions.LEFT_COL].copy()
+        top_face.grid[:, FacePositions.LEFT_COL] = front_left_col
+        
+        top_face.update_grid_attrs()
+        
+        return top_face.grid
+    
+    def bottom_grid(current_front):
+        bottom_face = current_front.bottom.copy()
+        
+        opposite_face = current_front.opposite.copy()
+        
+        opposite_right_col = opposite_face.grid[:, FacePositions.RIGHT_COL].copy()
+        bottom_face.grid[:, FacePositions.LEFT_COL] = np.flip(opposite_right_col)
+        
+        bottom_face.update_grid_attrs()
+        
+        return bottom_face.grid
+
+
+class TopRowLeft:
+    
+    def front_grid(current_front):
+        front_face = current_front.copy()
+        
+        right_face = current_front.right.copy()
+        
+        right_top_row = right_face.grid[FacePositions.TOP_ROW].copy()
+        front_face.grid[FacePositions.TOP_ROW] = right_top_row
+        
+        front_face.update_grid_attrs()
+        
+        return front_face.grid
+    
+    def opposite_grid(current_front):
+        opposite_face = current_front.opposite.copy()
+        
+        left_face = current_front.left.copy()
+
+        left_top_row = left_face.grid[FacePositions.TOP_ROW].copy()
+        opposite_face.grid[FacePositions.TOP_ROW] = left_top_row
+        
+        opposite_face.update_grid_attrs()
+        
+        return opposite_face.grid
+    
+    def left_grid(current_front):
+        left_face = current_front.left.copy()
+        
+        front_face = current_front.copy()
+        
+        front_top_row = front_face.grid[FacePositions.TOP_ROW].copy()
+        left_face.grid[FacePositions.TOP_ROW] = front_top_row
+        
+        left_face.update_grid_attrs()
+        
+        return left_face.grid
+    
+    def right_grid(current_front):
+        right_face = current_front.right.copy()
+        
+        opposite_face = current_front.opposite.copy()
+        
+        opposite_top_row = opposite_face.grid[FacePositions.TOP_ROW].copy()
+        right_face.grid[FacePositions.TOP_ROW] = opposite_top_row
+        
+        right_face.update_grid_attrs()
+        
+        return right_face.grid
+    
+    def top_grid(current_front):
+        return RotateLeftVertical.top_grid(current_front)
+    
+    def bottom_grid(current_front):
+        return current_front.bottom.grid
+
+        
+class BottomRowLeft:
+    
+    def front_grid(current_front):
+        front_face = current_front.copy()
+        
+        right_face = current_front.right.copy()
+        
+        right_bottom_row = right_face.grid[FacePositions.BOTTOM_ROW].copy()
+        front_face.grid[FacePositions.BOTTOM_ROW] = right_bottom_row
+        
+        front_face.update_grid_attrs()
+        
+        return front_face.grid
+    
+    def opposite_grid(current_front):
+        opposite_face = current_front.opposite.copy()
+        
+        left_face = current_front.left.copy()
+        
+        left_bottom_row = left_face.grid[FacePositions.BOTTOM_ROW].copy()
+        opposite_face.grid[FacePositions.BOTTOM_ROW] = left_bottom_row
+        
+        opposite_face.update_grid_attrs()
+        
+        return opposite_face.grid
+    
+    def left_grid(current_front):
+        left_face = current_front.left.copy()
+        
+        front_face = current_front.copy()
+        
+        front_bottom_row = front_face.grid[FacePositions.BOTTOM_ROW].copy()
+        left_face.grid[FacePositions.BOTTOM_ROW] = front_bottom_row
+        
+        left_face.update_grid_attrs()
+        
+        return left_face.grid
+    
+    def right_grid(current_front):
+        right_face = current_front.right.copy()
+        
+        opposite_face = current_front.opposite.copy()
+        
+        opposite_bottom_row = opposite_face.grid[FacePositions.BOTTOM_ROW].copy()
+        right_face.grid[FacePositions.BOTTOM_ROW] = opposite_bottom_row
+        
+        right_face.update_grid_attrs()
+        
+        return right_face.grid
+    
+    def top_grid(current_front):
+        return current_front.top.grid
+    
+    def bottom_grid(current_front):
+        return RotateLeftVertical.bottom_grid(current_front)
         
