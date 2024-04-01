@@ -1,8 +1,9 @@
 from constants import Colours, Orientation, FacePositions, PieceTypes
 from errors import ImmutableAttributeError
-from face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
+# from face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
 from predicates import is_default_perspective, is_white_face_top
-import helper as help
+# import helper as help
+from operations import Rotations as rotate, Inversions as invert, Shifts as shift
 
 import numpy as np
 
@@ -134,105 +135,105 @@ class RubiksCube:
         for pos, face in zip(FACE_ORDER, self.faces):
             print(f'{pos}: {face._id}')
         
-    def rotate_up(self):
-        # Getting transformed faces
-        new_front_face = ru.front_face(self.current_front)
-        new_opposite_face = ru.opposite_face(self.current_front)
-        new_left_face = ru.left_face(self.current_front)
-        new_right_face = ru.right_face(self.current_front)
-        new_top_face = ru.top_face(self.current_front)
-        new_bottom_face = ru.bottom_face(self.current_front)
+    # def rotate_up(self):
+    #     # Getting transformed faces
+    #     new_front_face = ru.front_face(self.current_front)
+    #     new_opposite_face = ru.opposite_face(self.current_front)
+    #     new_left_face = ru.left_face(self.current_front)
+    #     new_right_face = ru.right_face(self.current_front)
+    #     new_top_face = ru.top_face(self.current_front)
+    #     new_bottom_face = ru.bottom_face(self.current_front)
         
-        # Getting transformed grids
-        new_front_grid = ru.front_grid(self.current_front)
-        new_opposite_grid = ru.opposite_grid(self.current_front)
-        new_left_grid = ru.left_grid(self.current_front)
-        new_right_grid = ru.right_grid(self.current_front)
-        new_top_grid = ru.top_grid(self.current_front)
-        new_bottom_grid = ru.bottom_grid(self.current_front)
+    #     # Getting transformed grids
+    #     new_front_grid = ru.front_grid(self.current_front)
+    #     new_opposite_grid = ru.opposite_grid(self.current_front)
+    #     new_left_grid = ru.left_grid(self.current_front)
+    #     new_right_grid = ru.right_grid(self.current_front)
+    #     new_top_grid = ru.top_grid(self.current_front)
+    #     new_bottom_grid = ru.bottom_grid(self.current_front)
 
-        # Setting updated grids
-        new_front_face.grid = new_front_grid
-        new_opposite_face.grid = new_opposite_grid
-        new_left_face.grid = new_left_grid
-        new_right_face.grid = new_right_grid
-        new_top_face.grid = new_top_grid
-        new_bottom_face.grid = new_bottom_grid
+    #     # Setting updated grids
+    #     new_front_face.grid = new_front_grid
+    #     new_opposite_face.grid = new_opposite_grid
+    #     new_left_face.grid = new_left_grid
+    #     new_right_face.grid = new_right_grid
+    #     new_top_face.grid = new_top_grid
+    #     new_bottom_face.grid = new_bottom_grid
         
-        # Resetting current front based on the rotation
-        self.current_front = self.current_front.bottom
+    #     # Resetting current front based on the rotation
+    #     self.current_front = self.current_front.bottom
 
-        # Transferring values from new face to the original face
-        help.transfer_faces(self.current_front, new_bottom_face)
-        help.transfer_faces(self.current_front.left, new_left_face)
-        help.transfer_faces(self.current_front.right, new_right_face)
-        help.transfer_faces(self.current_front.opposite, new_top_face)
-        help.transfer_faces(self.current_front.top, new_front_face)
-        help.transfer_faces(self.current_front.bottom, new_opposite_face)
+    #     # Transferring values from new face to the original face
+    #     help.transfer_faces(self.current_front, new_bottom_face)
+    #     help.transfer_faces(self.current_front.left, new_left_face)
+    #     help.transfer_faces(self.current_front.right, new_right_face)
+    #     help.transfer_faces(self.current_front.opposite, new_top_face)
+    #     help.transfer_faces(self.current_front.top, new_front_face)
+    #     help.transfer_faces(self.current_front.bottom, new_opposite_face)
 
-    def rotate_down(self):
-        self.rotate_up()
-        self.rotate_up()
-        self.rotate_up()
+    # def rotate_down(self):
+    #     self.rotate_up()
+    #     self.rotate_up()
+    #     self.rotate_up()
 
-    def rotate_left_vertically(self):
-        # Getting transformed faces
-        new_front_face = rlv.front_face(self.current_front)
-        new_opposite_face = rlv.opposite_face(self.current_front)
-        new_left_face = rlv.left_face(self.current_front)
-        new_right_face = rlv.right_face(self.current_front)
-        new_top_face = rlv.top_face(self.current_front)
-        new_bottom_face = rlv.bottom_face(self.current_front)
+    # def rotate_left_vertically(self):
+    #     # Getting transformed faces
+    #     new_front_face = rlv.front_face(self.current_front)
+    #     new_opposite_face = rlv.opposite_face(self.current_front)
+    #     new_left_face = rlv.left_face(self.current_front)
+    #     new_right_face = rlv.right_face(self.current_front)
+    #     new_top_face = rlv.top_face(self.current_front)
+    #     new_bottom_face = rlv.bottom_face(self.current_front)
 
-        # Getting transformed grids
-        new_front_grid = rlv.front_grid(self.current_front)
-        new_opposite_grid = rlv.opposite_grid(self.current_front)
-        new_left_grid = rlv.left_grid(self.current_front)
-        new_right_grid = rlv.right_grid(self.current_front)
-        new_top_grid = rlv.top_grid(self.current_front)
-        new_bottom_grid = rlv.bottom_grid(self.current_front)
+    #     # Getting transformed grids
+    #     new_front_grid = rlv.front_grid(self.current_front)
+    #     new_opposite_grid = rlv.opposite_grid(self.current_front)
+    #     new_left_grid = rlv.left_grid(self.current_front)
+    #     new_right_grid = rlv.right_grid(self.current_front)
+    #     new_top_grid = rlv.top_grid(self.current_front)
+    #     new_bottom_grid = rlv.bottom_grid(self.current_front)
 
-        # Setting updated grids
-        new_front_face.grid = new_front_grid
-        new_opposite_face.grid = new_opposite_grid
-        new_left_face.grid = new_left_grid
-        new_right_face.grid = new_right_grid
-        new_top_face.grid = new_top_grid
-        new_bottom_face.grid = new_bottom_grid
+    #     # Setting updated grids
+    #     new_front_face.grid = new_front_grid
+    #     new_opposite_face.grid = new_opposite_grid
+    #     new_left_face.grid = new_left_grid
+    #     new_right_face.grid = new_right_grid
+    #     new_top_face.grid = new_top_grid
+    #     new_bottom_face.grid = new_bottom_grid
         
-        # Resetting current front based on the rotation
-        self.current_front = self.current_front.right
+    #     # Resetting current front based on the rotation
+    #     self.current_front = self.current_front.right
 
-        # Transferring values from new face to the original face
-        help.transfer_faces(self.current_front, new_right_face)
-        help.transfer_faces(self.current_front.left, new_front_face)
-        help.transfer_faces(self.current_front.right, new_opposite_face)
-        help.transfer_faces(self.current_front.opposite, new_left_face)
-        help.transfer_faces(self.current_front.top, new_top_face)
-        help.transfer_faces(self.current_front.bottom, new_bottom_face)
+    #     # Transferring values from new face to the original face
+    #     help.transfer_faces(self.current_front, new_right_face)
+    #     help.transfer_faces(self.current_front.left, new_front_face)
+    #     help.transfer_faces(self.current_front.right, new_opposite_face)
+    #     help.transfer_faces(self.current_front.opposite, new_left_face)
+    #     help.transfer_faces(self.current_front.top, new_top_face)
+    #     help.transfer_faces(self.current_front.bottom, new_bottom_face)
     
-    def rotate_right_vertically(self):
-        self.rotate_left_vertically()
-        self.rotate_left_vertically()
-        self.rotate_left_vertically()
+    # def rotate_right_vertically(self):
+    #     self.rotate_left_vertically()
+    #     self.rotate_left_vertically()
+    #     self.rotate_left_vertically()
 
-    def rotate_left_horizontally(self):
-        self.rotate_right_vertically()
-        self.rotate_down()
-        self.rotate_left_vertically()
+    # def rotate_left_horizontally(self):
+    #     self.rotate_right_vertically()
+    #     self.rotate_down()
+    #     self.rotate_left_vertically()
     
-    def rotate_right_horizontally(self):
-        self.rotate_left_vertically()
-        self.rotate_down()
-        self.rotate_right_vertically()
+    # def rotate_right_horizontally(self):
+    #     self.rotate_left_vertically()
+    #     self.rotate_down()
+    #     self.rotate_right_vertically()
 
-    def invert_vertically(self):
-        self.rotate_left_vertically()
-        self.rotate_left_vertically()
+    # def invert_vertically(self):
+    #     self.rotate_left_vertically()
+    #     self.rotate_left_vertically()
     
-    def invert_horizontally(self):
-        self.rotate_left_horizontally()
-        self.rotate_left_horizontally()
+    # def invert_horizontally(self):
+    #     self.rotate_left_horizontally()
+    #     self.rotate_left_horizontally()
 
     def reset_perspective(self):
         while True:
@@ -241,108 +242,115 @@ class RubiksCube:
             else:
                 blue_face_side = self.blue_face.side_of_cube
                 if blue_face_side == Orientation.TOP:
-                    self.rotate_down()
+                    # self.rotate_down()
+                    rotate.down(self.current_front)
                 elif blue_face_side == Orientation.BOTTOM:
-                    self.rotate_up()
+                    # self.rotate_up()
+                    rotate.up(self.current_front)
                 elif blue_face_side == Orientation.BACK:
                     if is_white_face_top(self.current_front, self.white_face):
-                        self.invert_vertically()
+                        # self.invert_vertically()
+                        invert.vertically(self.current_front)
                     else:
-                        self.invert_horizontally()
+                        # self.invert_horizontally()
+                        invert.horizontally(self.current_front)
                 elif blue_face_side == Orientation.LEFT:
-                    self.rotate_right_vertically()
+                    # self.rotate_right_vertically()
+                    rotate.right_vertical(self.current_front)
                 elif blue_face_side == Orientation.RIGHT:
-                    self.rotate_left_vertically()
+                    # self.rotate_left_vertically()
+                    rotate.left_vertical(self.current_front)
                 else:
-                    self.rotate_left_horizontally()
+                    # self.rotate_left_horizontally()
+                    rotate.left_horizontal(self.current_front)
 
-    def shift_right_col_up(self):
-        # Getting updated grids for each face
-        new_front_grid = rcu.front_grid(self.current_front)
-        new_opposite_grid = rcu.opposite_grid(self.current_front)
-        new_left_grid = rcu.left_grid(self.current_front)
-        new_right_grid = rcu.right_grid(self.current_front)
-        new_top_grid = rcu.top_grid(self.current_front)
-        new_bottom_grid = rcu.bottom_grid(self.current_front)
+    # def shift_right_col_up(self):
+    #     # Getting updated grids for each face
+    #     new_front_grid = rcu.front_grid(self.current_front)
+    #     new_opposite_grid = rcu.opposite_grid(self.current_front)
+    #     new_left_grid = rcu.left_grid(self.current_front)
+    #     new_right_grid = rcu.right_grid(self.current_front)
+    #     new_top_grid = rcu.top_grid(self.current_front)
+    #     new_bottom_grid = rcu.bottom_grid(self.current_front)
         
-        # Setting updated grids
-        self.current_front.grid = new_front_grid
-        self.current_front.opposite.grid = new_opposite_grid
-        self.current_front.left.grid = new_left_grid
-        self.current_front.right.grid = new_right_grid
-        self.current_front.top.grid = new_top_grid
-        self.current_front.bottom.grid = new_bottom_grid
+    #     # Setting updated grids
+    #     self.current_front.grid = new_front_grid
+    #     self.current_front.opposite.grid = new_opposite_grid
+    #     self.current_front.left.grid = new_left_grid
+    #     self.current_front.right.grid = new_right_grid
+    #     self.current_front.top.grid = new_top_grid
+    #     self.current_front.bottom.grid = new_bottom_grid
 
-    def shift_right_col_down(self):
-        self.shift_right_col_up()
-        self.shift_right_col_up()
-        self.shift_right_col_up()
+    # def shift_right_col_down(self):
+    #     self.shift_right_col_up()
+    #     self.shift_right_col_up()
+    #     self.shift_right_col_up()
 
-    def shift_left_col_up(self):
-        # Getting updated grids for each face
-        new_front_grid = lcu.front_grid(self.current_front)
-        new_opposite_grid = lcu.opposite_grid(self.current_front)
-        new_left_grid = lcu.left_grid(self.current_front)
-        new_right_grid = lcu.right_grid(self.current_front)
-        new_top_grid = lcu.top_grid(self.current_front)
-        new_bottom_grid = lcu.bottom_grid(self.current_front)
+    # def shift_left_col_up(self):
+    #     # Getting updated grids for each face
+    #     new_front_grid = lcu.front_grid(self.current_front)
+    #     new_opposite_grid = lcu.opposite_grid(self.current_front)
+    #     new_left_grid = lcu.left_grid(self.current_front)
+    #     new_right_grid = lcu.right_grid(self.current_front)
+    #     new_top_grid = lcu.top_grid(self.current_front)
+    #     new_bottom_grid = lcu.bottom_grid(self.current_front)
         
-        # Setting updated grids
-        self.current_front.grid = new_front_grid
-        self.current_front.opposite.grid = new_opposite_grid
-        self.current_front.left.grid = new_left_grid
-        self.current_front.right.grid = new_right_grid
-        self.current_front.top.grid = new_top_grid
-        self.current_front.bottom.grid = new_bottom_grid
+    #     # Setting updated grids
+    #     self.current_front.grid = new_front_grid
+    #     self.current_front.opposite.grid = new_opposite_grid
+    #     self.current_front.left.grid = new_left_grid
+    #     self.current_front.right.grid = new_right_grid
+    #     self.current_front.top.grid = new_top_grid
+    #     self.current_front.bottom.grid = new_bottom_grid
 
-    def shift_left_col_down(self):
-        self.shift_left_col_up()
-        self.shift_left_col_up()
-        self.shift_left_col_up()
+    # def shift_left_col_down(self):
+    #     self.shift_left_col_up()
+    #     self.shift_left_col_up()
+    #     self.shift_left_col_up()
 
-    def shift_top_row_left(self):
-        # Getting updated grids for each face
-        new_front_grid = trl.front_grid(self.current_front)
-        new_opposite_grid = trl.opposite_grid(self.current_front)
-        new_left_grid = trl.left_grid(self.current_front)
-        new_right_grid = trl.right_grid(self.current_front)
-        new_top_grid = trl.top_grid(self.current_front)
-        new_bottom_grid = trl.bottom_grid(self.current_front)
+    # def shift_top_row_left(self):
+    #     # Getting updated grids for each face
+    #     new_front_grid = trl.front_grid(self.current_front)
+    #     new_opposite_grid = trl.opposite_grid(self.current_front)
+    #     new_left_grid = trl.left_grid(self.current_front)
+    #     new_right_grid = trl.right_grid(self.current_front)
+    #     new_top_grid = trl.top_grid(self.current_front)
+    #     new_bottom_grid = trl.bottom_grid(self.current_front)
         
-        # Setting updated grids
-        self.current_front.grid = new_front_grid
-        self.current_front.opposite.grid = new_opposite_grid
-        self.current_front.left.grid = new_left_grid
-        self.current_front.right.grid = new_right_grid
-        self.current_front.top.grid = new_top_grid
-        self.current_front.bottom.grid = new_bottom_grid
+    #     # Setting updated grids
+    #     self.current_front.grid = new_front_grid
+    #     self.current_front.opposite.grid = new_opposite_grid
+    #     self.current_front.left.grid = new_left_grid
+    #     self.current_front.right.grid = new_right_grid
+    #     self.current_front.top.grid = new_top_grid
+    #     self.current_front.bottom.grid = new_bottom_grid
 
-    def shift_top_row_right(self):
-        self.shift_top_row_left()
-        self.shift_top_row_left()
-        self.shift_top_row_left()
+    # def shift_top_row_right(self):
+    #     self.shift_top_row_left()
+    #     self.shift_top_row_left()
+    #     self.shift_top_row_left()
 
-    def shift_bottom_row_left(self):
-        # Getting updated grids for each face
-        new_front_grid = brl.front_grid(self.current_front)
-        new_opposite_grid = brl.opposite_grid(self.current_front)
-        new_left_grid = brl.left_grid(self.current_front)
-        new_right_grid = brl.right_grid(self.current_front)
-        new_top_grid = brl.top_grid(self.current_front)
-        new_bottom_grid = brl.bottom_grid(self.current_front)
+    # def shift_bottom_row_left(self):
+    #     # Getting updated grids for each face
+    #     new_front_grid = brl.front_grid(self.current_front)
+    #     new_opposite_grid = brl.opposite_grid(self.current_front)
+    #     new_left_grid = brl.left_grid(self.current_front)
+    #     new_right_grid = brl.right_grid(self.current_front)
+    #     new_top_grid = brl.top_grid(self.current_front)
+    #     new_bottom_grid = brl.bottom_grid(self.current_front)
         
-        # Setting updated grids
-        self.current_front.grid = new_front_grid
-        self.current_front.opposite.grid = new_opposite_grid
-        self.current_front.left.grid = new_left_grid
-        self.current_front.right.grid = new_right_grid
-        self.current_front.top.grid = new_top_grid
-        self.current_front.bottom.grid = new_bottom_grid
+    #     # Setting updated grids
+    #     self.current_front.grid = new_front_grid
+    #     self.current_front.opposite.grid = new_opposite_grid
+    #     self.current_front.left.grid = new_left_grid
+    #     self.current_front.right.grid = new_right_grid
+    #     self.current_front.top.grid = new_top_grid
+    #     self.current_front.bottom.grid = new_bottom_grid
 
-    def shift_bottom_row_right(self):
-        self.shift_bottom_row_left()
-        self.shift_bottom_row_left()
-        self.shift_bottom_row_left()
+    # def shift_bottom_row_right(self):
+    #     self.shift_bottom_row_left()
+    #     self.shift_bottom_row_left()
+    #     self.shift_bottom_row_left()
 
 
 class Face:
