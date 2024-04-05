@@ -1,4 +1,4 @@
-from constants import Colours, Orientation, FacePositions, PieceTypes
+from constants import Colours, Orientation, FacePositions, PieceTypes, Operations as ops
 from errors import ImmutableAttributeError
 # from face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
 from predicates import is_default_perspective, is_white_face_top
@@ -8,6 +8,25 @@ from operations import Rotations as rotate, Inversions as invert, Shifts as shif
 import numpy as np
 
 FACE_ORDER = ['FRONT', 'LEFT', 'RIGHT', 'TOP', 'OPPOSITE', 'BOTTOM']
+POTENTIAL_FACE_ORDER = ['FRONT', 'OPPOSITE', 'LEFT', 'RIGHT', 'TOP', 'BOTTOM']
+INVERSE_OP_MAPPING = {
+    ops.ROTATE_DOWN: rotate.up,
+    ops.ROTATE_UP: rotate.down,
+    ops.ROTATE_LEFT_VERTICALLY: rotate.right_vertical,
+    ops.ROTATE_RIGHT_VERTICALLY: rotate.left_vertical,
+    ops.ROTATE_LEFT_HORIZONTALLY: rotate.right_horizontal,
+    ops.ROTATE_RIGHT_HORIZONTALLY: rotate.left_horizontal,
+    ops.INVERT_VERTICALLY: invert.vertically,
+    ops.INVERT_HORIZONTALLY: invert.horizontally,
+    ops.SHIFT_RIGHT_COL_UP: shift.right_col_down,
+    ops.SHIFT_LEFT_COL_UP: shift.left_col_down,
+    ops.SHIFT_RIGHT_COL_DOWN: shift.right_col_up,
+    ops.SHIFT_LEFT_COL_DOWN: shift.left_col_up,
+    ops.SHIFT_TOP_ROW_LEFT: shift.top_row_right,
+    ops.SHIFT_TOP_ROW_RIGHT: shift.top_row_left,
+    ops.SHIFT_BOTTOM_ROW_LEFT: shift.bottom_row_right,
+    ops.SHIFT_BOTTOM_ROW_RIGHT: shift.bottom_row_left
+}
 
 
 class RubiksCube:
@@ -19,6 +38,8 @@ class RubiksCube:
         self.white_face = white_face
         self.green_face = green_face
         self.yellow_face = yellow_face
+
+        self.op_stack = []
 
         if not is_copy:
             self.define_cube()
@@ -35,19 +56,27 @@ class RubiksCube:
         opposite_grid = repr(front.opposite).split('\n')
         bottom_grid = repr(front.bottom).split('\n')
 
-        output = f"     _______\n"
-        output += (
-            f"     !{left_grid[0]}|\n     !{left_grid[1]}|\n     !{left_grid[2]}|\n"
-        )
-        output += "------------------------\n"
-        output += f"{front_grid[0]}|{bottom_grid[0]}|{opposite_grid[0]}|{top_grid[0]}|\n"
-        output += f"{front_grid[1]}|{bottom_grid[1]}|{opposite_grid[1]}|{top_grid[1]}|\n"
-        output += f"{front_grid[2]}|{bottom_grid[2]}|{opposite_grid[2]}|{top_grid[2]}|\n"
-        output += "------------------------\n"
-        output += (
-            f"     !{right_grid[0]}|\n     !{right_grid[1]}|\n     !{right_grid[2]}|\n"
-        )
-        output += f"     -------"
+        try:
+            output = f"     _______\n"
+            output += (
+                f"     !{left_grid[0]}|\n     !{left_grid[1]}|\n     !{left_grid[2]}|\n"
+            )
+            output += "------------------------\n"
+            output += f"{front_grid[0]}|{bottom_grid[0]}|{opposite_grid[0]}|{top_grid[0]}|\n"
+            output += f"{front_grid[1]}|{bottom_grid[1]}|{opposite_grid[1]}|{top_grid[1]}|\n"
+            output += f"{front_grid[2]}|{bottom_grid[2]}|{opposite_grid[2]}|{top_grid[2]}|\n"
+            output += "------------------------\n"
+            output += (
+                f"     !{right_grid[0]}|\n     !{right_grid[1]}|\n     !{right_grid[2]}|\n"
+            )
+            output += f"     -------"
+        except IndexError:
+            print(front)
+            print(front.left)
+            print(front.right)
+            print(front.top)
+            print(front.opposite)
+            print(front.bottom)
 
         return output
 
@@ -126,6 +155,9 @@ class RubiksCube:
         self.white_face.side_of_cube = Orientation.TOP
         self.green_face.side_of_cube = Orientation.BACK
         self.yellow_face.side_of_cube = Orientation.BOTTOM
+
+        # Assigning complement pieces
+        self.assign_complements()
 
     def assign_complements(self):
         for face in self.faces:
@@ -243,26 +275,26 @@ class RubiksCube:
                 blue_face_side = self.blue_face.side_of_cube
                 if blue_face_side == Orientation.TOP:
                     # self.rotate_down()
-                    rotate.down(self.current_front)
+                    rotate.down(self)
                 elif blue_face_side == Orientation.BOTTOM:
                     # self.rotate_up()
-                    rotate.up(self.current_front)
+                    rotate.up(self)
                 elif blue_face_side == Orientation.BACK:
                     if is_white_face_top(self.current_front, self.white_face):
                         # self.invert_vertically()
-                        invert.vertically(self.current_front)
+                        invert.vertically(self)
                     else:
                         # self.invert_horizontally()
-                        invert.horizontally(self.current_front)
+                        invert.horizontally(self)
                 elif blue_face_side == Orientation.LEFT:
                     # self.rotate_right_vertically()
-                    rotate.right_vertical(self.current_front)
+                    rotate.right_vertical(self)
                 elif blue_face_side == Orientation.RIGHT:
                     # self.rotate_left_vertically()
-                    rotate.left_vertical(self.current_front)
+                    rotate.left_vertical(self)
                 else:
                     # self.rotate_left_horizontally()
-                    rotate.left_horizontal(self.current_front)
+                    rotate.left_horizontal(self)
 
     # def shift_right_col_up(self):
     #     # Getting updated grids for each face

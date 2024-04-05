@@ -41,3 +41,24 @@ class PieceTypes(Enum):
     CENTER = auto()
     EDGE = auto()
     CORNER = auto()
+
+    
+class Operations(Enum):
+    ROTATE_UP = auto()
+    ROTATE_DOWN = auto()
+    ROTATE_LEFT_VERTICALLY = auto()
+    ROTATE_LEFT_HORIZONTALLY = auto()
+    ROTATE_RIGHT_VERTICALLY = auto()
+    ROTATE_RIGHT_HORIZONTALLY = auto()
+    
+    INVERT_VERTICALLY = auto()
+    INVERT_HORIZONTALLY = auto()
+    
+    SHIFT_RIGHT_COL_UP = auto()
+    SHIFT_RIGHT_COL_DOWN = auto()
+    SHIFT_LEFT_COL_UP = auto()
+    SHIFT_LEFT_COL_DOWN = auto()
+    SHIFT_TOP_ROW_LEFT = auto()
+    SHIFT_TOP_ROW_RIGHT = auto()
+    SHIFT_BOTTOM_ROW_LEFT = auto()
+    SHIFT_BOTTOM_ROW_RIGHT = auto()
