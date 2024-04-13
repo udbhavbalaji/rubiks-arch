@@ -1,10 +1,16 @@
-from constants import Orientation, FacePositions
+from __future__ import annotations
+from typing import TYPE_CHECKING
+from rubiks_cube.constants import Orientation, FacePositions
 import numpy as np
+
+if TYPE_CHECKING:
+    from rubiks_cube.cube import Face
 
 
 class RotateUp:
     
-    def front_face(current_front):
+    @staticmethod
+    def front_face(current_front: Face) -> Face:
         face = current_front.copy()
         old_face = current_front.copy()
         
@@ -18,7 +24,8 @@ class RotateUp:
         
         return face
 
-    def opposite_face(current_front):
+    @staticmethod
+    def opposite_face(current_front: Face) -> Face:
         face = current_front.opposite.copy()
         old_face = face.copy()
 
@@ -35,7 +42,8 @@ class RotateUp:
         
         return face
 
-    def left_face(current_front):
+    @staticmethod
+    def left_face(current_front: Face) -> Face:
         face = current_front.left.copy()
         old_face = face.copy()
 
@@ -47,7 +55,8 @@ class RotateUp:
 
         return face
     
-    def right_face(current_front):
+    @staticmethod
+    def right_face(current_front: Face) -> Face:
         face = current_front.right.copy()
         old_face = face.copy()
 
@@ -59,7 +68,8 @@ class RotateUp:
 
         return face
     
-    def top_face(current_front):
+    @staticmethod
+    def top_face(current_front: Face) -> Face:
         face = current_front.top.copy()
         old_face = face.copy()
 
@@ -76,7 +86,8 @@ class RotateUp:
         
         return face
     
-    def bottom_face(current_front):
+    @staticmethod
+    def bottom_face(current_front: Face) -> Face:
         face = current_front.bottom.copy()
         old_face = face.copy()
 
@@ -90,12 +101,14 @@ class RotateUp:
         
         return face
 
-    def front_grid(current_front):
+    @staticmethod
+    def front_grid(current_front: Face) -> np.ndarray:
         front_face = current_front.copy()
         front_face.update_grid_attrs()
         return front_face.grid
 
-    def opposite_grid(current_front):
+    @staticmethod
+    def opposite_grid(current_front: Face) -> np.ndarray:
         back_face = current_front.opposite.copy()
         old_face = back_face.copy()
         
@@ -114,7 +127,8 @@ class RotateUp:
         
         return back_face.grid
     
-    def left_grid(current_front):
+    @staticmethod
+    def left_grid(current_front: Face) -> np.ndarray:
         left_face = current_front.left.copy()
         old_face = left_face.copy()
 
@@ -132,7 +146,8 @@ class RotateUp:
 
         return left_face.grid
     
-    def right_grid(current_front):
+    @staticmethod
+    def right_grid(current_front: Face) -> np.ndarray:
         right_face = current_front.right.copy()
         old_face = right_face.copy()
 
@@ -150,7 +165,8 @@ class RotateUp:
 
         return right_face.grid
     
-    def top_grid(current_front):
+    @staticmethod
+    def top_grid(current_front: Face) -> np.ndarray:
         top_face = current_front.top.copy()
         old_face = top_face.copy()
 
@@ -168,7 +184,8 @@ class RotateUp:
         
         return top_face.grid
     
-    def bottom_grid(current_front):
+    @staticmethod
+    def bottom_grid(current_front: Face) -> np.ndarray:
         bottom_face = current_front.bottom.copy()
         bottom_face.update_grid_attrs()
         return bottom_face.grid
@@ -176,27 +193,32 @@ class RotateUp:
 
 class RotateLeftVertical:
     
-    def front_face(current_front):
+    @staticmethod
+    def front_face(current_front: Face) -> Face:
         face = current_front.copy()
         face.side_of_cube = Orientation.LEFT
         return face
 
-    def opposite_face(current_front):
+    @staticmethod
+    def opposite_face(current_front: Face) -> Face:
         face = current_front.opposite.copy()
         face.side_of_cube = Orientation.RIGHT
         return face
 
-    def left_face(current_front):
+    @staticmethod
+    def left_face(current_front: Face) -> Face:
         face = current_front.left.copy()
         face.side_of_cube = Orientation.BACK
         return face
     
-    def right_face(current_front):
+    @staticmethod
+    def right_face(current_front: Face) -> Face:
         face = current_front.right.copy()
         face.side_of_cube = Orientation.FRONT
         return face
     
-    def top_face(current_front):
+    @staticmethod
+    def top_face(current_front: Face) -> Face:
         face = current_front.top.copy()
         old_face = face.copy()
         
@@ -208,7 +230,8 @@ class RotateLeftVertical:
         
         return face
     
-    def bottom_face(current_front):
+    @staticmethod
+    def bottom_face(current_front: Face) -> Face:
         face = current_front.bottom.copy()
         old_face = face.copy()
         
@@ -220,27 +243,32 @@ class RotateLeftVertical:
         
         return face
 
-    def front_grid(current_front):
+    @staticmethod
+    def front_grid(current_front: Face) -> np.ndarray:
         front_face = current_front.copy()
         front_face.update_grid_attrs()
         return front_face.grid
     
-    def opposite_grid(current_front):
+    @staticmethod
+    def opposite_grid(current_front: Face) -> np.ndarray:
         opposite_face = current_front.opposite.copy()
         opposite_face.update_grid_attrs()
         return opposite_face.grid
     
-    def left_grid(current_front):
+    @staticmethod
+    def left_grid(current_front: Face) -> np.ndarray:
         left_face = current_front.left.copy()
         left_face.update_grid_attrs()
         return left_face.grid
     
-    def right_grid(current_front):
+    @staticmethod
+    def right_grid(current_front: Face) -> np.ndarray:
         right_face = current_front.right.copy()
         right_face.update_grid_attrs()
         return right_face.grid
     
-    def top_grid(current_front):
+    @staticmethod
+    def top_grid(current_front: Face) -> np.ndarray:
         top_face = current_front.top.copy()
         old_face = top_face.copy()
         
@@ -258,7 +286,8 @@ class RotateLeftVertical:
         
         return top_face.grid
     
-    def bottom_grid(current_front):
+    @staticmethod
+    def bottom_grid(current_front: Face) -> np.ndarray:
         bottom_face = current_front.bottom.copy()
         old_face = bottom_face.copy()
         
@@ -279,7 +308,8 @@ class RotateLeftVertical:
 
 class RightColUp:
     
-    def front_grid(current_front):
+    @staticmethod
+    def front_grid(current_front: Face) -> np.ndarray:
         front_face = current_front.copy()
         old_face = front_face.copy()
         
@@ -292,7 +322,8 @@ class RightColUp:
         
         return front_face.grid
     
-    def opposite_grid(current_front):
+    @staticmethod
+    def opposite_grid(current_front: Face) -> np.ndarray:
         opposite_face = current_front.opposite.copy()
         old_face = opposite_face.copy()
         
@@ -305,13 +336,16 @@ class RightColUp:
         
         return opposite_face.grid
     
-    def left_grid(current_front):
+    @staticmethod
+    def left_grid(current_front: Face) -> np.ndarray:
         return current_front.left.grid
     
-    def right_grid(current_front):
+    @staticmethod
+    def right_grid(current_front: Face) -> np.ndarray:
         return RotateUp.right_grid(current_front)
         
-    def top_grid(current_front):
+    @staticmethod
+    def top_grid(current_front: Face) -> np.ndarray:
         top_face = current_front.top.copy()
         
         front_face = current_front.copy()
@@ -323,7 +357,8 @@ class RightColUp:
         
         return top_face.grid
     
-    def bottom_grid(current_front):
+    @staticmethod
+    def bottom_grid(current_front: Face) -> np.ndarray:
         bottom_face = current_front.bottom.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -338,7 +373,8 @@ class RightColUp:
     
 class LeftColUp:
     
-    def front_grid(current_front):
+    @staticmethod
+    def front_grid(current_front: Face) -> np.ndarray:
         front_face = current_front.copy()
         
         bottom_face = current_front.bottom.copy()
@@ -350,7 +386,8 @@ class LeftColUp:
         
         return front_face.grid
     
-    def opposite_grid(current_front):
+    @staticmethod
+    def opposite_grid(current_front: Face) -> np.ndarray:
         opposite_face = current_front.opposite.copy()
         
         top_face = current_front.top.copy()
@@ -362,13 +399,16 @@ class LeftColUp:
         
         return opposite_face.grid
     
-    def left_grid(current_front):
+    @staticmethod
+    def left_grid(current_front: Face) -> np.ndarray:
         return RotateUp.left_grid(current_front)
     
-    def right_grid(current_front):
+    @staticmethod
+    def right_grid(current_front: Face) -> np.ndarray:
         return current_front.right.grid
     
-    def top_grid(current_front):
+    @staticmethod
+    def top_grid(current_front: Face) -> np.ndarray:
         top_face = current_front.top.copy()
         
         front_face = current_front.copy()
@@ -380,7 +420,8 @@ class LeftColUp:
         
         return top_face.grid
     
-    def bottom_grid(current_front):
+    @staticmethod
+    def bottom_grid(current_front: Face) -> np.ndarray:
         bottom_face = current_front.bottom.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -395,7 +436,8 @@ class LeftColUp:
 
 class TopRowLeft:
     
-    def front_grid(current_front):
+    @staticmethod
+    def front_grid(current_front: Face) -> np.ndarray:
         front_face = current_front.copy()
         
         right_face = current_front.right.copy()
@@ -407,7 +449,8 @@ class TopRowLeft:
         
         return front_face.grid
     
-    def opposite_grid(current_front):
+    @staticmethod
+    def opposite_grid(current_front: Face) -> np.ndarray:
         opposite_face = current_front.opposite.copy()
         
         left_face = current_front.left.copy()
@@ -419,7 +462,8 @@ class TopRowLeft:
         
         return opposite_face.grid
     
-    def left_grid(current_front):
+    @staticmethod
+    def left_grid(current_front: Face) -> np.ndarray:
         left_face = current_front.left.copy()
         
         front_face = current_front.copy()
@@ -431,7 +475,8 @@ class TopRowLeft:
         
         return left_face.grid
     
-    def right_grid(current_front):
+    @staticmethod
+    def right_grid(current_front: Face) -> np.ndarray:
         right_face = current_front.right.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -443,16 +488,19 @@ class TopRowLeft:
         
         return right_face.grid
     
-    def top_grid(current_front):
+    @staticmethod
+    def top_grid(current_front: Face) -> np.ndarray:
         return RotateLeftVertical.top_grid(current_front)
     
-    def bottom_grid(current_front):
+    @staticmethod
+    def bottom_grid(current_front: Face) -> np.ndarray:
         return current_front.bottom.grid
 
         
 class BottomRowLeft:
     
-    def front_grid(current_front):
+    @staticmethod
+    def front_grid(current_front: Face) -> np.ndarray:
         front_face = current_front.copy()
         
         right_face = current_front.right.copy()
@@ -464,7 +512,8 @@ class BottomRowLeft:
         
         return front_face.grid
     
-    def opposite_grid(current_front):
+    @staticmethod
+    def opposite_grid(current_front: Face) -> np.ndarray:
         opposite_face = current_front.opposite.copy()
         
         left_face = current_front.left.copy()
@@ -476,7 +525,8 @@ class BottomRowLeft:
         
         return opposite_face.grid
     
-    def left_grid(current_front):
+    @staticmethod
+    def left_grid(current_front: Face) -> np.ndarray:
         left_face = current_front.left.copy()
         
         front_face = current_front.copy()
@@ -488,7 +538,8 @@ class BottomRowLeft:
         
         return left_face.grid
     
-    def right_grid(current_front):
+    @staticmethod
+    def right_grid(current_front: Face) -> np.ndarray:
         right_face = current_front.right.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -500,9 +551,11 @@ class BottomRowLeft:
         
         return right_face.grid
     
-    def top_grid(current_front):
+    @staticmethod
+    def top_grid(current_front: Face) -> np.ndarray:
         return current_front.top.grid
     
-    def bottom_grid(current_front):
+    @staticmethod
+    def bottom_grid(current_front: Face) -> np.ndarray:
         return RotateLeftVertical.bottom_grid(current_front)
         
