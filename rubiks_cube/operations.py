@@ -48,7 +48,6 @@ class Rotations:
     
     @staticmethod
     def left_vertical(cube: RubiksCube):
-        # TODO: change parameter to cube from face (front)
         # Getting transformed faces
         new_front_face = rlv.front_face(cube.current_front)
         new_opposite_face = rlv.opposite_face(cube.current_front)

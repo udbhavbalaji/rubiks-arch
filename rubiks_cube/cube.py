@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Optional
 from rubiks_cube.constants import Colours, Orientation, FacePositions, PieceTypes, Operations as ops
-from rubiks_cube.errors import ImmutableAttributeError, OperationStackContentsError, InvalidOperationError
+from rubiks_cube.errors import ImmutableAttributeError, OperationStackContentsError, InvalidOperationError, InvalidOrientationError
 from rubiks_cube.predicates import is_default_perspective, is_white_face_top
 from rubiks_cube.operations import Rotations as rotate, Inversions as invert, Shifts as shift
 
@@ -9,7 +9,6 @@ import random
 import numpy as np
 
 FACE_ORDER = ['FRONT', 'LEFT', 'RIGHT', 'TOP', 'OPPOSITE', 'BOTTOM']
-POTENTIAL_FACE_ORDER = ['FRONT', 'OPPOSITE', 'LEFT', 'RIGHT', 'TOP', 'BOTTOM']
 INVERSE_OP_MAPPING = {
     ops.ROTATE_DOWN: ops.ROTATE_UP,
     ops.ROTATE_UP: ops.ROTATE_DOWN,
@@ -320,7 +319,7 @@ class Face:
             second_row = f"{self.grid[FacePositions.MID_LEFT]} {self.grid[FacePositions.CENTER]} {self.grid[FacePositions.MID_RIGHT]}"
             third_row = f"{self.grid[FacePositions.TOP_LEFT]} {self.grid[FacePositions.TOP_CENTER]} {self.grid[FacePositions.TOP_RIGHT]}" 
         else:
-            print("This is why there is no output at all")
+            raise InvalidOrientationError
 
         output = f"{first_row}\n{second_row}\n{third_row}"
 
@@ -488,7 +487,7 @@ class Piece:
     
     def __init__(self, face: Face, face_position: FacePositions, piece_type: PieceTypes) -> None:
         self.face = face
-        self._colour = self.face.colour
+        self._colour: Colours = self.face.colour
         self.face_position = face_position
         self._piece_type = piece_type
 

@@ -122,7 +122,6 @@ class RotateUp:
         back_face.grid[FacePositions.MID_RIGHT] = old_face.grid[FacePositions.MID_LEFT]
         back_face.grid[FacePositions.BOTTOM_CENTER] = old_face.grid[FacePositions.TOP_CENTER]
         
-        # TODO: Re-evaluate how, when and why piece attrs need to be updated
         back_face.update_grid_attrs()
         
         return back_face.grid

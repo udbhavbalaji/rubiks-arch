@@ -28,3 +28,11 @@ class InvalidOperationError(Exception):
         if not msg:
             msg = 'Invalid operation requested on cube'
         super().__init__(msg)
+
+
+class InvalidOrientationError(Exception):
+    
+    def __init__(self, msg: Optional[str] = None) -> None:
+        if not msg:
+            msg = "Face's orientation is not valid"
+        super().__init__(msg)
