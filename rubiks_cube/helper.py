@@ -1,6 +1,11 @@
-from errors import FaceTransferError
+from __future__ import annotations
+from typing import TYPE_CHECKING
+from rubiks_cube.errors import FaceTransferError
 
-def transfer_faces(orig, new):
+if TYPE_CHECKING:
+    from rubiks_cube.cube import Face
+
+def transfer_faces(orig: Face, new: Face) -> None:
     try:
         orig.left = new.left
         orig.right = new.right

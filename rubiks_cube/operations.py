@@ -1,22 +1,23 @@
-from constants import Operations as ops
-from face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
-import helper as help
+from __future__ import annotations
+from rubiks_cube.constants import Operations as ops
+from typing import TYPE_CHECKING
+from rubiks_cube.face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
+import rubiks_cube.helper as help
+
+if TYPE_CHECKING:
+    from rubiks_cube.cube import RubiksCube
 
 class Rotations:
     
-    # def up(current_front, internal_req=False):
-    def up(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.ROTATE_UP)
-            print('Rotating Up')
+    @staticmethod
+    def up(cube: RubiksCube):
         # Getting transformed faces
+        new_front_face = ru.front_face(cube.current_front)
+        new_opposite_face = ru.opposite_face(cube.current_front)
         new_left_face = ru.left_face(cube.current_front)
         new_right_face = ru.right_face(cube.current_front)
         new_top_face = ru.top_face(cube.current_front)
         new_bottom_face = ru.bottom_face(cube.current_front)
-        #########
-        new_front_face = ru.front_face(cube.current_front)
-        new_opposite_face = ru.opposite_face(cube.current_front)
         
         # Getting transformed grids
         new_front_grid = ru.front_grid(cube.current_front)
@@ -45,12 +46,9 @@ class Rotations:
         help.transfer_faces(cube.current_front.top, new_front_face)
         help.transfer_faces(cube.current_front.bottom, new_opposite_face)
     
-    # def left_vertical(current_front, internal_req=False):
-    def left_vertical(cube, internal_req=False):
+    @staticmethod
+    def left_vertical(cube: RubiksCube):
         # TODO: change parameter to cube from face (front)
-        if not internal_req:
-            cube.op_stack.append(ops.ROTATE_LEFT_VERTICALLY)
-            print('Rotating Left Vertically')
         # Getting transformed faces
         new_front_face = rlv.front_face(cube.current_front)
         new_opposite_face = rlv.opposite_face(cube.current_front)
@@ -86,62 +84,62 @@ class Rotations:
         help.transfer_faces(cube.current_front.top, new_top_face)
         help.transfer_faces(cube.current_front.bottom, new_bottom_face)
     
-    def down(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.ROTATE_DOWN)
-            print('Rotating Down')
-        Rotations.up(cube, internal_req=True)
-        Rotations.up(cube, internal_req=True)
-        Rotations.up(cube, internal_req=True)
+    @staticmethod
+    def down(cube: RubiksCube):
+        Rotations.up(cube)
+        Rotations.up(cube)
+        Rotations.up(cube)
     
-    def right_vertical(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.ROTATE_RIGHT_VERTICALLY)
-            print('Rotating Right Vertically')
-        Rotations.left_vertical(cube, internal_req=True)
-        Rotations.left_vertical(cube, internal_req=True)
-        Rotations.left_vertical(cube, internal_req=True)
+    @staticmethod
+    def right_vertical(cube: RubiksCube):
+        Rotations.left_vertical(cube)
+        Rotations.left_vertical(cube)
+        Rotations.left_vertical(cube)
     
-    def left_horizontal(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.ROTATE_LEFT_HORIZONTALLY)
-            print('Rotating Left Horizontally')
-        Rotations.right_vertical(cube, internal_req=True)
-        Rotations.down(cube, internal_req=True)
-        Rotations.left_vertical(cube, internal_req=True)
+    @staticmethod
+    def left_horizontal(cube: RubiksCube):
+        Rotations.right_vertical(cube)
+        Rotations.down(cube)
+        Rotations.left_vertical(cube)
     
-    def right_horizontal(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.ROTATE_RIGHT_HORIZONTALLY)
-            print('Rotating Right Horizontally')
-        Rotations.left_vertical(cube, internal_req=True)
-        Rotations.down(cube, internal_req=True)
-        Rotations.right_vertical(cube, internal_req=True)
+    @staticmethod
+    def right_horizontal(cube: RubiksCube):
+        Rotations.left_vertical(cube)
+        Rotations.down(cube)
+        Rotations.right_vertical(cube)
+
+    rotations = {
+        ops.ROTATE_UP: up,
+        ops.ROTATE_DOWN: down,
+        ops.ROTATE_LEFT_VERTICALLY: left_vertical,
+        ops.ROTATE_LEFT_HORIZONTALLY: left_horizontal,
+        ops.ROTATE_RIGHT_VERTICALLY: right_vertical,
+        ops.ROTATE_RIGHT_HORIZONTALLY: right_horizontal
+    }
 
     
 class Inversions:
     
-    def horizontally(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.INVERT_HORIZONTALLY)
-            print('Inverting Horizontally')
-        Rotations.left_horizontal(cube, internal_req=True)
-        Rotations.left_horizontal(cube, internal_req=True)
+    @staticmethod
+    def horizontally(cube: RubiksCube):
+        Rotations.left_horizontal(cube)
+        Rotations.left_horizontal(cube)
     
-    def vertically(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.INVERT_VERTICALLY)
-            print('Inverting Vertically')
-        Rotations.left_vertical(cube, internal_req=True)
-        Rotations.left_vertical(cube, internal_req=True)
+    @staticmethod
+    def vertically(cube: RubiksCube):
+        Rotations.left_vertical(cube)
+        Rotations.left_vertical(cube)
+
+    inversions = {
+        ops.INVERT_HORIZONTALLY: horizontally,
+        ops.INVERT_VERTICALLY: vertically
+    }
     
     
 class Shifts:
     
-    def right_col_up(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.SHIFT_RIGHT_COL_UP)
-            print('Shifting Right Column Up')
+    @staticmethod
+    def right_col_up(cube: RubiksCube):
         # Getting updated grids for each face
         new_front_grid = rcu.front_grid(cube.current_front)
         new_opposite_grid = rcu.opposite_grid(cube.current_front)
@@ -158,10 +156,8 @@ class Shifts:
         cube.current_front.top.grid = new_top_grid
         cube.current_front.bottom.grid = new_bottom_grid
     
-    def left_col_up(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.SHIFT_LEFT_COL_UP)
-            print('Shifting Left Column Up')
+    @staticmethod
+    def left_col_up(cube: RubiksCube):
         # Getting updated grids for each face
         new_front_grid = lcu.front_grid(cube.current_front)
         new_opposite_grid = lcu.opposite_grid(cube.current_front)
@@ -178,10 +174,8 @@ class Shifts:
         cube.current_front.top.grid = new_top_grid
         cube.current_front.bottom.grid = new_bottom_grid
     
-    def top_row_left(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.TOP_ROW_LEFT)
-            print('Shifting Top Row Left')
+    @staticmethod
+    def top_row_left(cube: RubiksCube):
         # Getting updated grids for each face
         new_front_grid = trl.front_grid(cube.current_front)
         new_opposite_grid = trl.opposite_grid(cube.current_front)
@@ -198,10 +192,8 @@ class Shifts:
         cube.current_front.top.grid = new_top_grid
         cube.current_front.bottom.grid = new_bottom_grid
     
-    def bottom_row_left(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.BOTTOM_ROW_LEFT)
-            print('Shifting Bottom Row Left')
+    @staticmethod
+    def bottom_row_left(cube: RubiksCube):
         # Getting updated grids for each face
         new_front_grid = brl.front_grid(cube.current_front)
         new_opposite_grid = brl.opposite_grid(cube.current_front)
@@ -218,35 +210,37 @@ class Shifts:
         cube.current_front.top.grid = new_top_grid
         cube.current_front.bottom.grid = new_bottom_grid
     
-    def right_col_down(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.SHIFT_RIGHT_COL_DOWN)
-            print('Shifting Right Column Down')
-        Shifts.right_col_up(cube, internal_req=True)
-        Shifts.right_col_up(cube, internal_req=True)
-        Shifts.right_col_up(cube, internal_req=True)
+    @staticmethod
+    def right_col_down(cube: RubiksCube):
+        Shifts.right_col_up(cube)
+        Shifts.right_col_up(cube)
+        Shifts.right_col_up(cube)
     
-    def left_col_down(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.SHIFT_LEFT_COL_DOWN)
-            print('Shifting Left Column Down')
-        Shifts.left_col_up(cube, internal_req=True)
-        Shifts.left_col_up(cube, internal_req=True)
-        Shifts.left_col_up(cube, internal_req=True)
+    @staticmethod
+    def left_col_down(cube: RubiksCube):
+        Shifts.left_col_up(cube)
+        Shifts.left_col_up(cube)
+        Shifts.left_col_up(cube)
     
-    def top_row_right(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.TOP_ROW_RIGHT)
-            print('Shifting Top Row Right')
-        Shifts.top_row_left(cube, internal_req=True)
-        Shifts.top_row_left(cube, internal_req=True)
-        Shifts.top_row_left(cube, internal_req=True)
+    @staticmethod
+    def top_row_right(cube: RubiksCube):
+        Shifts.top_row_left(cube)
+        Shifts.top_row_left(cube)
+        Shifts.top_row_left(cube)
     
-    def bottom_row_right(cube, internal_req=False):
-        if not internal_req:
-            cube.op_stack.append(ops.BOTTOM_ROW_RIGHT)
-            print('Shifting Bottom Row Right')
-        Shifts.bottom_row_left(cube, internal_req=True)
-        Shifts.bottom_row_left(cube, internal_req=True)
-        Shifts.bottom_row_left(cube, internal_req=True)
+    @staticmethod
+    def bottom_row_right(cube: RubiksCube):
+        Shifts.bottom_row_left(cube)
+        Shifts.bottom_row_left(cube)
+        Shifts.bottom_row_left(cube)
         
+    shifts = {
+        ops.SHIFT_LEFT_COL_UP: left_col_up,
+        ops.SHIFT_LEFT_COL_DOWN: left_col_down,
+        ops.SHIFT_RIGHT_COL_UP: right_col_up,
+        ops.SHIFT_RIGHT_COL_DOWN: right_col_down,
+        ops.SHIFT_TOP_ROW_LEFT: top_row_left,
+        ops.SHIFT_TOP_ROW_RIGHT: top_row_right,
+        ops.SHIFT_BOTTOM_ROW_LEFT: bottom_row_left,
+        ops.SHIFT_BOTTOM_ROW_RIGHT: bottom_row_right
+    }
