@@ -1,7 +1,18 @@
+"""
+This module defines the constants and enums used in the rubiks_cube package.
+
+"""
 from enum import Enum, auto
 
 
 class Colours(Enum):
+    """
+    This class defines colour constants used within the rubiks cube architecture.
+
+    Parent Class:
+        Enum (class): Defines this class as an Enum
+        
+    """
     BLUE: str = 'Blue'
     RED: str = 'Red'
     ORANGE: str = 'Orange'
@@ -11,6 +22,13 @@ class Colours(Enum):
 
     
 class Orientation(Enum):
+    """
+    This class defines cube orientation constants used within the rubiks cube architecture.
+
+    Parent Class:
+        Enum (class): Defines this class as an Enum
+        
+    """
     FRONT = auto()
     BACK = auto()
     LEFT = auto()
@@ -20,6 +38,10 @@ class Orientation(Enum):
 
 
 class FacePositions:
+    """
+    This class defines the positional constants for pieces within a face's grid. Allows easier indexing of a face's grid.
+        
+    """
     TOP_LEFT: tuple[int, int] = (0, 0)
     TOP_CENTER: tuple[int, int] = (0, 1)
     TOP_RIGHT: tuple[int, int] = (0, 2)
@@ -38,12 +60,26 @@ class FacePositions:
 
     
 class PieceTypes(Enum):
+    """
+    This class defines the piece type constants used within the rubiks cube architecture.
+
+    Parent Class:
+        Enum (class): Defines this class as an Enum
+        
+    """
     CENTER = auto()
     EDGE = auto()
     CORNER = auto()
 
     
 class Operations(Enum):
+    """
+    This class defines the operation constants used to map to corresponding methods within the rubiks cube architecture.
+
+    Parent Class:
+        Enum (class): Defines this class as an Enum
+        
+    """
     ROTATE_UP: str = 'Rotating Up'
     ROTATE_DOWN: str = 'Rotating Down'
     ROTATE_LEFT_VERTICALLY: str = 'Rotating Left Vertically'

@@ -1,3 +1,8 @@
+"""
+This modules contains the definitions of transformations that are done on each face for each operation
+defined within the rubiks cube architecture.
+
+"""
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from rubiks_cube.constants import Orientation, FacePositions
@@ -8,9 +13,25 @@ if TYPE_CHECKING:
 
 
 class RotateUp:
+
+    """
+    This class contains transformation methods for the rotation up operation of a rubiks cube instance within the rubiks cube architecture.
+
+    """
     
     @staticmethod
     def front_face(current_front: Face) -> Face:
+        """
+        This static method transforms the front face when the rotate up operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.copy()
         old_face = current_front.copy()
         
@@ -26,6 +47,17 @@ class RotateUp:
 
     @staticmethod
     def opposite_face(current_front: Face) -> Face:
+        """
+        This static method transforms the opposite face when the rotate up operation is performed on
+        the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+    
+        """
         face = current_front.opposite.copy()
         old_face = face.copy()
 
@@ -44,6 +76,17 @@ class RotateUp:
 
     @staticmethod
     def left_face(current_front: Face) -> Face:
+        """
+        This static method transforms the left face when the rotate up operation is performed on
+        the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+    
+        """
         face = current_front.left.copy()
         old_face = face.copy()
 
@@ -57,6 +100,17 @@ class RotateUp:
     
     @staticmethod
     def right_face(current_front: Face) -> Face:
+        """
+        This static method transforms the right face when the rotate up operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+    
+        """
         face = current_front.right.copy()
         old_face = face.copy()
 
@@ -70,6 +124,17 @@ class RotateUp:
     
     @staticmethod
     def top_face(current_front: Face) -> Face:
+        """
+        This static method transforms the top face when the rotate up operation is performed on 
+        the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+    
+        """
         face = current_front.top.copy()
         old_face = face.copy()
 
@@ -88,6 +153,17 @@ class RotateUp:
     
     @staticmethod
     def bottom_face(current_front: Face) -> Face:
+        """
+        This static method transforms the bottom face when the rotate up operation is performed on
+        the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+    
+        """
         face = current_front.bottom.copy()
         old_face = face.copy()
 
@@ -103,12 +179,34 @@ class RotateUp:
 
     @staticmethod
     def front_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the front face's grid when the rotate up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new front face grid
+            
+        """
         front_face = current_front.copy()
         front_face.update_grid_attrs()
         return front_face.grid
 
     @staticmethod
     def opposite_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the opposite face's grid when the rotate up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new opposite face grid
+
+        """
         back_face = current_front.opposite.copy()
         old_face = back_face.copy()
         
@@ -128,6 +226,17 @@ class RotateUp:
     
     @staticmethod
     def left_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the left face's grid when the rotate up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new left face grid
+
+        """
         left_face = current_front.left.copy()
         old_face = left_face.copy()
 
@@ -147,6 +256,17 @@ class RotateUp:
     
     @staticmethod
     def right_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the right face's grid when the rotate up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new right face grid
+
+        """
         right_face = current_front.right.copy()
         old_face = right_face.copy()
 
@@ -166,6 +286,17 @@ class RotateUp:
     
     @staticmethod
     def top_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the top face's grid when the rotate up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new top face grid
+
+        """
         top_face = current_front.top.copy()
         old_face = top_face.copy()
 
@@ -185,6 +316,17 @@ class RotateUp:
     
     @staticmethod
     def bottom_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the bottom face's grid when the rotate up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new bottom face grid
+
+        """
         bottom_face = current_front.bottom.copy()
         bottom_face.update_grid_attrs()
         return bottom_face.grid
@@ -192,32 +334,92 @@ class RotateUp:
 
 class RotateLeftVertical:
     
+    """
+    This class contains transformation methods for the left vertical rotation operation of a rubiks cube instance within the rubiks cube architecture.
+
+    """
+
     @staticmethod
     def front_face(current_front: Face) -> Face:
+        """
+        This static method transforms the front face when the rotate left vertical operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.copy()
         face.side_of_cube = Orientation.LEFT
         return face
 
     @staticmethod
     def opposite_face(current_front: Face) -> Face:
+        """
+        This static method transforms the opposite face when the rotate left vertical operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.opposite.copy()
         face.side_of_cube = Orientation.RIGHT
         return face
 
     @staticmethod
     def left_face(current_front: Face) -> Face:
+        """
+        This static method transforms the left face when the rotate left vertical operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.left.copy()
         face.side_of_cube = Orientation.BACK
         return face
     
     @staticmethod
     def right_face(current_front: Face) -> Face:
+        """
+        This static method transforms the right face when the rotate left vertical operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.right.copy()
         face.side_of_cube = Orientation.FRONT
         return face
     
     @staticmethod
     def top_face(current_front: Face) -> Face:
+        """
+        This static method transforms the top face when the rotate left vertical operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.top.copy()
         old_face = face.copy()
         
@@ -231,6 +433,17 @@ class RotateLeftVertical:
     
     @staticmethod
     def bottom_face(current_front: Face) -> Face:
+        """
+        This static method transforms the bottom face when the rotate left vertical operation is performed on the 
+        rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            Face: copied face instance with updated attributes
+
+        """
         face = current_front.bottom.copy()
         old_face = face.copy()
         
@@ -244,30 +457,85 @@ class RotateLeftVertical:
 
     @staticmethod
     def front_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the front face's grid when the rotate left vertical operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new front face grid
+            
+        """
         front_face = current_front.copy()
         front_face.update_grid_attrs()
         return front_face.grid
     
     @staticmethod
     def opposite_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the opposite face's grid when the rotate left vertical operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new opposite face grid
+            
+        """
         opposite_face = current_front.opposite.copy()
         opposite_face.update_grid_attrs()
         return opposite_face.grid
     
     @staticmethod
     def left_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the left face's grid when the rotate left vertical operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new left face grid
+            
+        """
         left_face = current_front.left.copy()
         left_face.update_grid_attrs()
         return left_face.grid
     
     @staticmethod
     def right_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the right face's grid when the rotate left vertical operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new right face grid
+            
+        """
         right_face = current_front.right.copy()
         right_face.update_grid_attrs()
         return right_face.grid
     
     @staticmethod
     def top_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the top face's grid when the rotate left vertical operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new top face grid
+            
+        """
         top_face = current_front.top.copy()
         old_face = top_face.copy()
         
@@ -287,6 +555,17 @@ class RotateLeftVertical:
     
     @staticmethod
     def bottom_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the bottom face's grid when the rotate left vertical operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new bottom face grid
+            
+        """
         bottom_face = current_front.bottom.copy()
         old_face = bottom_face.copy()
         
@@ -307,8 +586,24 @@ class RotateLeftVertical:
 
 class RightColUp:
     
+    """
+    This class contains transformation methods for the shift right column up operation of a rubiks cube instance within the rubiks cube architecture.
+
+    """
+    
     @staticmethod
     def front_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the front face's grid when the shift right column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new front face grid
+            
+        """
         front_face = current_front.copy()
         old_face = front_face.copy()
         
@@ -323,6 +618,17 @@ class RightColUp:
     
     @staticmethod
     def opposite_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the opposite face's grid when the shift right column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new opposite face grid
+            
+        """
         opposite_face = current_front.opposite.copy()
         old_face = opposite_face.copy()
         
@@ -337,14 +643,47 @@ class RightColUp:
     
     @staticmethod
     def left_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the left face's grid when the shift right column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new left face grid
+            
+        """
         return current_front.left.grid
     
     @staticmethod
     def right_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the right face's grid when the shift right column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new right face grid
+            
+        """
         return RotateUp.right_grid(current_front)
         
     @staticmethod
     def top_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the top face's grid when the shift right column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new top face grid
+            
+        """
         top_face = current_front.top.copy()
         
         front_face = current_front.copy()
@@ -358,6 +697,17 @@ class RightColUp:
     
     @staticmethod
     def bottom_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the bottom face's grid when the shift right column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new bottom face grid
+            
+        """
         bottom_face = current_front.bottom.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -372,8 +722,24 @@ class RightColUp:
     
 class LeftColUp:
     
+    """
+    This class contains transformation methods for the shift left column up operation of a rubiks cube instance within the rubiks cube architecture.
+
+    """
+    
     @staticmethod
     def front_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the front face's grid when the shift left column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new front face grid
+            
+        """
         front_face = current_front.copy()
         
         bottom_face = current_front.bottom.copy()
@@ -387,6 +753,17 @@ class LeftColUp:
     
     @staticmethod
     def opposite_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the opposite face's grid when the shift left column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new opposite face grid
+            
+        """
         opposite_face = current_front.opposite.copy()
         
         top_face = current_front.top.copy()
@@ -400,14 +777,47 @@ class LeftColUp:
     
     @staticmethod
     def left_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the left face's grid when the shift left column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new left face grid
+            
+        """
         return RotateUp.left_grid(current_front)
     
     @staticmethod
     def right_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the right face's grid when the shift left column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new right face grid
+            
+        """
         return current_front.right.grid
     
     @staticmethod
     def top_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the top face's grid when the shift left column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new top face grid
+            
+        """
         top_face = current_front.top.copy()
         
         front_face = current_front.copy()
@@ -421,6 +831,17 @@ class LeftColUp:
     
     @staticmethod
     def bottom_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the bottom face's grid when the shift left column up operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new bottom face grid
+            
+        """
         bottom_face = current_front.bottom.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -435,8 +856,24 @@ class LeftColUp:
 
 class TopRowLeft:
     
+    """
+    This class contains transformation methods for the shift top row left operation of a rubiks cube instance within the rubiks cube architecture.
+
+    """
+    
     @staticmethod
     def front_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the front face's grid when the shift top row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new front face grid
+            
+        """
         front_face = current_front.copy()
         
         right_face = current_front.right.copy()
@@ -450,6 +887,17 @@ class TopRowLeft:
     
     @staticmethod
     def opposite_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the opposite face's grid when the shift top row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new opposite face grid
+            
+        """
         opposite_face = current_front.opposite.copy()
         
         left_face = current_front.left.copy()
@@ -463,6 +911,17 @@ class TopRowLeft:
     
     @staticmethod
     def left_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the left face's grid when the shift top row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new left face grid
+            
+        """
         left_face = current_front.left.copy()
         
         front_face = current_front.copy()
@@ -476,6 +935,17 @@ class TopRowLeft:
     
     @staticmethod
     def right_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the right face's grid when the shift top row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new right face grid
+            
+        """
         right_face = current_front.right.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -489,17 +959,55 @@ class TopRowLeft:
     
     @staticmethod
     def top_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the top face's grid when the shift top row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new top face grid
+            
+        """
         return RotateLeftVertical.top_grid(current_front)
     
     @staticmethod
     def bottom_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the bottom face's grid when the shift top row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new bottom face grid
+            
+        """
         return current_front.bottom.grid
 
         
 class BottomRowLeft:
     
+    """
+    This class contains transformation methods for the shift bottom row left operation of a rubiks cube instance within the rubiks cube architecture.
+
+    """
+    
     @staticmethod
     def front_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the front face's grid when the shift bottom row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new front face grid
+            
+        """
         front_face = current_front.copy()
         
         right_face = current_front.right.copy()
@@ -513,6 +1021,17 @@ class BottomRowLeft:
     
     @staticmethod
     def opposite_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the opposite face's grid when the shift bottom row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new opposite face grid
+            
+        """
         opposite_face = current_front.opposite.copy()
         
         left_face = current_front.left.copy()
@@ -526,6 +1045,17 @@ class BottomRowLeft:
     
     @staticmethod
     def left_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the left face's grid when the shift bottom row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new left face grid
+            
+        """
         left_face = current_front.left.copy()
         
         front_face = current_front.copy()
@@ -539,6 +1069,17 @@ class BottomRowLeft:
     
     @staticmethod
     def right_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the right face's grid when the shift bottom row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new right face grid
+            
+        """
         right_face = current_front.right.copy()
         
         opposite_face = current_front.opposite.copy()
@@ -552,9 +1093,31 @@ class BottomRowLeft:
     
     @staticmethod
     def top_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the top face's grid when the shift bottom row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new top face grid
+            
+        """
         return current_front.top.grid
     
     @staticmethod
     def bottom_grid(current_front: Face) -> np.ndarray:
+        """
+        This static method transforms the bottom face's grid when the shift bottom row left operation is performed
+        on the rubiks cube instance.
+
+        Args:
+            current_front (Face): rubiks cube instance's current front face
+
+        Returns:
+            np.ndarray: new bottom face grid
+            
+        """
         return RotateLeftVertical.bottom_grid(current_front)
         

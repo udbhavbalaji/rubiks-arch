@@ -1,16 +1,41 @@
+"""
+This module contains the definitions of operations that can be performed on the rubiks cube. These operations have been
+partitioned into rotations, inversions & shifts.
+
+"""
 from __future__ import annotations
 from rubiks_cube.constants import Operations as ops
 from typing import TYPE_CHECKING
-from rubiks_cube.face_transformations import RotateUp as ru, RotateLeftVertical as rlv, RightColUp as rcu, LeftColUp as lcu, TopRowLeft as trl, BottomRowLeft as brl
+from rubiks_cube.transformations import (
+    RotateUp as ru, 
+    RotateLeftVertical as rlv, 
+    RightColUp as rcu, 
+    LeftColUp as lcu, 
+    TopRowLeft as trl, 
+    BottomRowLeft as brl
+    )
 import rubiks_cube.helper as help
 
 if TYPE_CHECKING:
     from rubiks_cube.cube import RubiksCube
 
 class Rotations:
+
+    """
+    This class contains rotation operation methods for a rubiks cube instance within the rubiks cube architecture.
+
+    """
     
     @staticmethod
-    def up(cube: RubiksCube):
+    def up(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of rotating the rubiks cube up.
+        The operation is as follows: 
+
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         # Getting transformed faces
         new_front_face = ru.front_face(cube.current_front)
         new_opposite_face = ru.opposite_face(cube.current_front)
@@ -47,7 +72,15 @@ class Rotations:
         help.transfer_faces(cube.current_front.bottom, new_opposite_face)
     
     @staticmethod
-    def left_vertical(cube: RubiksCube):
+    def left_vertical(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of rotating the rubiks cube left vertically.
+        The operation is as follows: 
+
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         # Getting transformed faces
         new_front_face = rlv.front_face(cube.current_front)
         new_opposite_face = rlv.opposite_face(cube.current_front)
@@ -84,25 +117,67 @@ class Rotations:
         help.transfer_faces(cube.current_front.bottom, new_bottom_face)
     
     @staticmethod
-    def down(cube: RubiksCube):
+    def down(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of rotating the rubiks cube down.
+        Equivalent of rotating up 3 times.
+
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Rotations.up(cube)
         Rotations.up(cube)
         Rotations.up(cube)
     
     @staticmethod
-    def right_vertical(cube: RubiksCube):
+    def right_vertical(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of rotating the rubiks cube right vertically.
+        Equivalent to rotating left vertically 3 times.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Rotations.left_vertical(cube)
         Rotations.left_vertical(cube)
         Rotations.left_vertical(cube)
     
     @staticmethod
-    def left_horizontal(cube: RubiksCube):
+    def left_horizontal(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of rotating the rubiks cube left horizontally.
+        
+        Equivalent to the following operations:
+        
+        1. Right vertical
+        2. Down
+        3. Left vertical
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Rotations.right_vertical(cube)
         Rotations.down(cube)
         Rotations.left_vertical(cube)
     
     @staticmethod
-    def right_horizontal(cube: RubiksCube):
+    def right_horizontal(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of rotating the rubiks cube right horizontally.
+        
+        Equivalent to the following operations:
+        
+        1. Left vertical
+        2. Down
+        3. Right vertical
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Rotations.left_vertical(cube)
         Rotations.down(cube)
         Rotations.right_vertical(cube)
@@ -119,13 +194,36 @@ class Rotations:
     
 class Inversions:
     
+    """
+    This class contains inversion operation methods for a rubiks cube instance within the rubiks cube architecture.
+
+    """
+    
     @staticmethod
-    def horizontally(cube: RubiksCube):
+    def horizontally(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of inverting the rubiks cube horizontally.
+        
+        Equivalent to rotating left horizontally 2 times.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Rotations.left_horizontal(cube)
         Rotations.left_horizontal(cube)
     
     @staticmethod
-    def vertically(cube: RubiksCube):
+    def vertically(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of inverting the rubiks cube vertically.
+        
+        Equivalent to rotating left vertically 2 times.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Rotations.left_vertical(cube)
         Rotations.left_vertical(cube)
 
@@ -137,8 +235,20 @@ class Inversions:
     
 class Shifts:
     
+    """
+    This class contains shift operation methods for a rubiks cube instance within the rubiks cube architecture.
+
+    """
+    
     @staticmethod
-    def right_col_up(cube: RubiksCube):
+    def right_col_up(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's right column up.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         # Getting updated grids for each face
         new_front_grid = rcu.front_grid(cube.current_front)
         new_opposite_grid = rcu.opposite_grid(cube.current_front)
@@ -156,7 +266,14 @@ class Shifts:
         cube.current_front.bottom.grid = new_bottom_grid
     
     @staticmethod
-    def left_col_up(cube: RubiksCube):
+    def left_col_up(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's left column up.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         # Getting updated grids for each face
         new_front_grid = lcu.front_grid(cube.current_front)
         new_opposite_grid = lcu.opposite_grid(cube.current_front)
@@ -174,7 +291,14 @@ class Shifts:
         cube.current_front.bottom.grid = new_bottom_grid
     
     @staticmethod
-    def top_row_left(cube: RubiksCube):
+    def top_row_left(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's top row left.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         # Getting updated grids for each face
         new_front_grid = trl.front_grid(cube.current_front)
         new_opposite_grid = trl.opposite_grid(cube.current_front)
@@ -192,7 +316,14 @@ class Shifts:
         cube.current_front.bottom.grid = new_bottom_grid
     
     @staticmethod
-    def bottom_row_left(cube: RubiksCube):
+    def bottom_row_left(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's bottom row left.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         # Getting updated grids for each face
         new_front_grid = brl.front_grid(cube.current_front)
         new_opposite_grid = brl.opposite_grid(cube.current_front)
@@ -210,25 +341,53 @@ class Shifts:
         cube.current_front.bottom.grid = new_bottom_grid
     
     @staticmethod
-    def right_col_down(cube: RubiksCube):
+    def right_col_down(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's right column down.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Shifts.right_col_up(cube)
         Shifts.right_col_up(cube)
         Shifts.right_col_up(cube)
     
     @staticmethod
-    def left_col_down(cube: RubiksCube):
+    def left_col_down(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's left column down.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Shifts.left_col_up(cube)
         Shifts.left_col_up(cube)
         Shifts.left_col_up(cube)
     
     @staticmethod
-    def top_row_right(cube: RubiksCube):
+    def top_row_right(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's top row right.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Shifts.top_row_left(cube)
         Shifts.top_row_left(cube)
         Shifts.top_row_left(cube)
     
     @staticmethod
-    def bottom_row_right(cube: RubiksCube):
+    def bottom_row_right(cube: RubiksCube) -> None:
+        """
+        This static method performs the operation of shifting the rubiks cube's bottom row right.
+        
+        Args:
+            cube (RubiksCube): The rubiks cube instance on which the operation should be performed.
+
+        """
         Shifts.bottom_row_left(cube)
         Shifts.bottom_row_left(cube)
         Shifts.bottom_row_left(cube)
