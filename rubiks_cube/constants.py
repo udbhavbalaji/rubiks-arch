@@ -42,15 +42,15 @@ class FacePositions:
     This class defines the positional constants for pieces within a face's grid. Allows easier indexing of a face's grid.
         
     """
-    TOP_LEFT: tuple[int, int] = (0, 0)
-    TOP_CENTER: tuple[int, int] = (0, 1)
-    TOP_RIGHT: tuple[int, int] = (0, 2)
-    MID_LEFT: tuple[int, int] = (1, 0)
-    CENTER: tuple[int, int] = (1, 1)
-    MID_RIGHT: tuple[int, int] = (1, 2)
-    BOTTOM_LEFT: tuple[int, int] = (2, 0)
-    BOTTOM_CENTER: tuple[int, int] = (2, 1)
-    BOTTOM_RIGHT: tuple[int, int] = (2, 2)
+    TOP_LEFT = (0, 0)
+    TOP_CENTER = (0, 1)
+    TOP_RIGHT = (0, 2)
+    MID_LEFT = (1, 0)
+    CENTER = (1, 1)
+    MID_RIGHT = (1, 2)
+    BOTTOM_LEFT = (2, 0)
+    BOTTOM_CENTER = (2, 1)
+    BOTTOM_RIGHT = (2, 2)
 
     TOP_ROW: int = 0
     BOTTOM_ROW: int = 2

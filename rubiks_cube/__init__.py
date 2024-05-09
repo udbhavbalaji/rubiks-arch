@@ -1,7 +1,7 @@
 """
 Package initialization file. This module creates a rubiks-cube object and all the menu options.
 """
-from rubiks_cube.cube import RubiksCube
+from rubiks_cube.models import RubiksCube
 from rubiks_cube.constants import Operations
 
 cube = RubiksCube()

@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from rubiks_cube.errors import FaceTransferError
 
 if TYPE_CHECKING:
-    from rubiks_cube.cube import Face
+    from rubiks_cube.models import Face
 
 def transfer_faces(orig: Face, new: Face) -> None:
     """

@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from rubiks_cube.cube import RubiksCube, Face
+    from rubiks_cube.models import RubiksCube, Face
 
 def is_default_perspective(cube: RubiksCube) -> bool:
     """

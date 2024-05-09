@@ -9,7 +9,7 @@ from rubiks_cube.constants import Orientation, FacePositions
 import numpy as np
 
 if TYPE_CHECKING:
-    from rubiks_cube.cube import Face
+    from rubiks_cube.models import Face
 
 
 class RotateUp:

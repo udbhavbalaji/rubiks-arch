@@ -17,7 +17,7 @@ from rubiks_cube.transformations import (
 import rubiks_cube.helper as help
 
 if TYPE_CHECKING:
-    from rubiks_cube.cube import RubiksCube
+    from rubiks_cube.models import RubiksCube
 
 class Rotations:
 
