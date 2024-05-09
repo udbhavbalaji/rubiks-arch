@@ -6,6 +6,144 @@ This project is an object-oriented model of a Rubik's Cube architecture, impleme
 
 ## Documentation
 
+### models.py
+
+This module contains the model definitions for the rubiks cube, its face, and a piece in the face. These definitions include defining the structure, as well as relevant properties and operations that exist for these models.
+
+#### models.RubiksCube
+
+This is a class representing the Rubiks Cube. A cube has 6 faces (type=Face). It is initialized with the blue face in front, red face on the left, orange face on the right, green face on the back, white face on top and yellow face on the bottom (referred to as 'default perspective').
+
+##### Attributes
+- current_front
+- blue_face
+- red_face
+- orange_face
+- green_face
+- white_face
+- yellow_face
+- op_stack
+
+##### Properties
+- faces
+
+##### Methods
+- define_cube
+- assign_complements
+- rotate
+- invert
+- shift
+- reset_perspective
+- shuffle
+- unshuffle
+
+#### models.Face
+
+This is a class representing a face of a rubiks cube (type=RubiksCube) as part of the rubiks cube architecture. Each face has a 3 X 3 grid, representing the 9 pieces (type=Piece |  EdgePiece | CornerPiece) present on a rubiks cube's face. The face instance's colour attribute is always set to be the colour of the face's center piece.
+
+##### Attributes
+- left
+- right
+- top
+- bottom
+- front
+- back
+- grid
+
+##### Properties
+- colour
+- opposite
+- is_copy
+
+##### Methods
+- copy
+- initialize_grid
+- update_grid_attrs
+- init_face_complements
+- print_attrs
+
+#### models.Piece
+
+This is a class that represents each piece on each face instance of a rubiks cube instance.
+
+##### Attributes
+- face
+- face_position
+
+##### Properties
+- colour
+- piece_type
+
+#### models.EdgePiece
+
+This is a class that represents an edge piece in the rubiks architecture. Inherits models.Piece.
+
+##### Attributes
+- face
+- face_position
+
+##### Properties
+- colour
+- piece_type
+- complement
+
+#### models.CornerPiece
+
+This is a class that represents an corner piece in the rubiks architecture. Inherits from the Piece class.
+
+##### Attributes
+- face
+- face_position
+
+##### Properties
+- colour
+- piece_type
+- complements
+
+### transformations.py
+
+This modules contains the definitions of transformations that are done on each face for each operation defined within the rubiks cube architecture.
+
+#### transformations.RotateUp
+
+This class contains transformation methods for the rotation up operation of a rubiks cube instance within the rubiks cube architecture.
+
+#### transformations.RotateLeftVertical
+
+This class contains transformation methods for the left vertical rotation operation of a rubiks cube instance within the rubiks cube architecture.
+
+#### transformations.RightColUp
+
+This class contains transformation methods for the shift right column up operation of a rubiks cube instance within the rubiks cube architecture.
+
+#### transformations.LeftColUp
+
+This class contains transformation methods for the shift left column up operation of a rubiks cube instance within the rubiks cube architecture.
+
+#### transformations.TopRowLeft
+
+This class contains transformation methods for the shift top row left operation of a rubiks cube instance within the rubiks cube architecture.
+
+#### transformations.BottomRowLeft
+
+This class contains transformation methods for the shift bottom row left operation of a rubiks cube instance within the rubiks cube architecture.
+
+### operations.py
+
+This module contains the definitions of operations that can be performed on the rubiks cube. These operations have been partitioned into rotations, inversions & shifts.
+
+#### operations.Rotations
+
+This class contains rotation operation methods for a rubiks cube instance within the rubiks cube architecture.
+
+#### operations.Inversions
+
+This class contains inversion operation methods for a rubiks cube instance within the rubiks cube architecture.
+
+#### operations.Shifts
+
+This class contains shift operation methods for a rubiks cube instance within the rubiks cube architecture.
+
 [Documentation](https://linktodocumentation)
 ## Features
 
